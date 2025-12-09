@@ -1,0 +1,12 @@
+bin/
+obj/
+Debug/
+Release/
+
+.vs/
+*.suo
+*.user
+
+*.log
+*.tmp
+*.cache

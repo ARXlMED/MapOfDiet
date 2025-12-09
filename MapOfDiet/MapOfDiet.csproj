@@ -1,0 +1,79 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Images\TabControl\Add food.png" />
+    <None Remove="Images\TabControl\Add physical activity.png" />
+    <None Remove="Images\TabControl\Add_food.png" />
+    <None Remove="Images\TabControl\Add_physical_activity v0.1.png" />
+    <None Remove="Images\TabControl\Add_physical_activity.png" />
+    <None Remove="Images\TabControl\Add_recipes.png" />
+    <None Remove="Images\TabControl\Add_users.png" />
+    <None Remove="Images\TabControl\Meal Plan.png" />
+    <None Remove="Images\TabControl\Meal_Plan v0.1.png" />
+    <None Remove="Images\TabControl\Meal_Plan.png" />
+    <None Remove="Images\TabControl\Profile.png" />
+    <None Remove="Images\TabControl\Recipe book v2.png" />
+    <None Remove="Images\TabControl\Recipe book.png" />
+    <None Remove="Images\TabControl\Recipe_book.png" />
+    <None Remove="Images\TabControl\Recipe_book_v2.png" />
+    <None Remove="Images\TabControl\Statistics.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Images\TabControl\Add_food.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\TabControl\Add_physical_activity v0.1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\TabControl\Add_physical_activity.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\TabControl\Add_recipes.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\TabControl\Add_users.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\TabControl\Meal_Plan v0.1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\TabControl\Meal_Plan.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\TabControl\Profile.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\TabControl\Recipe_book.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\TabControl\Recipe_book_v2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\TabControl\Statistics.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="5.0.0" />
+    <PackageReference Include="Npgsql" Version="9.0.4" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ApplicationDefinition Update="App.xaml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ApplicationDefinition>
+  </ItemGroup>
+
+</Project>

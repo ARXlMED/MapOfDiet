@@ -1,0 +1,98 @@
+﻿<Window x:Class="MapOfDiet.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:MapOfDiet.ViewModels"
+        xmlns:views="clr-namespace:MapOfDiet.Views"
+        Title="MainWindow" Height="675" Width="1200" 
+        Background="#1E1E1E">
+
+    <Window.DataContext>
+        <vm:MainViewModel />
+    </Window.DataContext>
+    
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="#2D2D30"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#3E3E42"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="Margin" Value="10"/>
+        </Style>
+
+        <Style TargetType="ComboBox">
+            <Setter Property="Background" Value="#2D2D30"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#3E3E42"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="Margin" Value="10"/>
+        </Style>
+
+        <Style TargetType="ListBox">
+            <Setter Property="Background" Value="#2D2D30"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#3E3E42"/>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="Margin" Value="10"/>
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#008ACC"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="Segoe UI Semibold"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+    </Window.Resources>
+
+
+    <Grid x:Name="MainMenu">
+        <TabControl ItemsSource="{Binding Tabs}" TabStripPlacement="Bottom" Background="#1E1E1E" BorderBrush="#1E1E1E">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <Image Source="{Binding IconPath}" Width="50" Height="60"/>
+                    </StackPanel>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+
+            <TabControl.Resources>
+                <Style TargetType="TabPanel">
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                </Style>
+
+                <Style TargetType="TabItem">
+                    <Setter Property="Background" Value="#2E2E2E"/>
+                    <Setter Property="BorderBrush" Value="#1E1E1E"/>
+                </Style>
+
+                <DataTemplate DataType="{x:Type vm:ProfileViewModel}">
+                    <views:Profile />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:RecipeViewModel}">
+                    <views:Recipe />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:AddFoodRecordViewModel}">
+                    <views:AddFoodRecord />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:AddActivityRecordViewModel}">
+                    <views:AddActivityRecord />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:StatisticsViewModel}">
+                    <views:Statistics />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:GetPlanViewModel}">
+                    <views:GetPlan />
+                </DataTemplate>
+            </TabControl.Resources>
+        </TabControl>
+    </Grid>
+</Window> 
