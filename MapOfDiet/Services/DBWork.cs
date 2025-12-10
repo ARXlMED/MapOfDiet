@@ -15,6 +15,9 @@ namespace MapOfDiet.Services
     {
         private static string connString = ConfigurationManager.ConnectionStrings["PostgresConn"].ConnectionString;
 
+
+
+
         //// AuthWindow ----------------------------------------------------------------------------------
         
         // Получить по логину всю инфу по информации для аунтефикации
@@ -128,6 +131,9 @@ namespace MapOfDiet.Services
                 }
             }
         }
+
+
+
 
         //// AdminWindow ----------------------------------------------------------------------------------
 
@@ -274,6 +280,9 @@ namespace MapOfDiet.Services
             return result != null;
         }
 
+
+
+
         //// Profile ----------------------------------------------------------------------------------
         
         // При изменении веса текущего или ожидаемого пушить его в историю весов с текущей датой (то есть пушится не когда удаляются, а когда создаются данные)
@@ -297,8 +306,7 @@ namespace MapOfDiet.Services
             await using var tran = await conn.BeginTransactionAsync();
             try
             {
-                // --- Обновляем таблицу users ---
-                await using (var cmd = new NpgsqlCommand(@"UPDATE users SET name = @name,height = @height, age = @age, gender = @genderWHERE user_id = @user_id", conn, tran))                {
+                await using (var cmd = new NpgsqlCommand(@"UPDATE users SET name = @name,height = @height, age = @age, gender = @gender WHERE user_id = @user_id", conn, tran))                {
                     cmd.Parameters.AddWithValue("name", userProfile.Name);
                     cmd.Parameters.AddWithValue("height", userProfile.Height);
                     cmd.Parameters.AddWithValue("age", userProfile.Age);
@@ -308,7 +316,6 @@ namespace MapOfDiet.Services
                     await cmd.ExecuteNonQueryAsync();
                 }
 
-                // --- Добавляем новую запись в weight_history ---
                 await using (var cmd = new NpgsqlCommand("INSERT INTO weight_history (user_id, time, weight, target_weight) VALUES (@user_id, @time, @weight, @target_weight)", conn, tran))
                 {
                     cmd.Parameters.AddWithValue("user_id", userProfile.UserId);
@@ -319,8 +326,6 @@ namespace MapOfDiet.Services
                     await cmd.ExecuteNonQueryAsync();
                 }
 
-                // --- Обновляем предпочтения категорий ---
-                // Сначала удалим старые записи
                 await using (var cmdDel = new NpgsqlCommand(
                     "DELETE FROM users_preferences WHERE user_id = @user_id", conn, tran))
                 {
@@ -328,7 +333,6 @@ namespace MapOfDiet.Services
                     await cmdDel.ExecuteNonQueryAsync();
                 }
 
-                // Добавляем новые лайки
                 foreach (var cat in userProfile.LikeCategories)
                 {
                     await using var cmdIns = new NpgsqlCommand(@"INSERT INTO users_preferences (user_id, category_id, prefer) VALUES (@user_id, @cat_id, TRUE)", conn, tran);
@@ -338,7 +342,6 @@ namespace MapOfDiet.Services
                     await cmdIns.ExecuteNonQueryAsync();
                 }
 
-                // Добавляем новые дизлайки
                 foreach (var cat in userProfile.DislikeCategories)
                 {
                     await using var cmdIns = new NpgsqlCommand(@"INSERT INTO users_preferences (user_id, category_id, prefer) VALUES (@user_id, @cat_id, FALSE)", conn, tran);
@@ -348,7 +351,6 @@ namespace MapOfDiet.Services
                     await cmdIns.ExecuteNonQueryAsync();
                 }
 
-                // --- Коммит транзакции ---
                 await tran.CommitAsync();
                 return true;
             }
@@ -358,6 +360,56 @@ namespace MapOfDiet.Services
                 throw;
             }
         }
+
+        public static async Task<UserProfile?> GetUserProfileAsync(int userId)
+        {
+            if (userId == 0) return null;
+            await using var conn = new NpgsqlConnection(connString);
+            await conn.OpenAsync();
+
+            try
+            {
+                UserProfile userProfile = new();
+
+                await using (var cmd = new NpgsqlCommand("SELECT name, height, age, gender FROM users WHERE user_id = @user_id", conn))
+                {
+                    cmd.Parameters.AddWithValue("user_id", userId);
+
+                    await using var reader = await cmd.ExecuteReaderAsync();
+                    if (await reader.ReadAsync())
+                    {
+                        userProfile.Name = reader.GetString(0);
+                        userProfile.Height = reader.GetInt32(1);
+                        userProfile.Age = reader.GetInt32(2);
+                        userProfile.Gender = reader.GetChar(3);
+                    }
+                }
+
+                var latest = await GetLatestWeightAsync(userId);
+                if (latest != null)
+                {
+                    userProfile.NowWeight = latest.Value.Current;
+                    userProfile.TargetWeight = latest.Value.Target;
+                }
+
+                var categories = await GetCategoriesByUserIdAsync(userId);
+                userProfile.LikeCategories = categories.LikeCategories;
+                userProfile.DislikeCategories = categories.DislikeCategories;
+
+                return userProfile;
+            }
+            catch (PostgresException ex)
+            {
+                Console.WriteLine($"PostgresException: {ex.SqlState} - {ex.MessageText}");
+                return null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+
 
         //// Recipe ----------------------------------------------------------------------------------
 
@@ -520,6 +572,8 @@ namespace MapOfDiet.Services
         }
 
 
+
+
         //// AddFoodRecord ----------------------------------------------------------------------------------
 
         public static bool PushFoodRecord(FoodRecord foodRecord)
@@ -534,6 +588,9 @@ namespace MapOfDiet.Services
             return true;
         }
 
+
+
+
         //// AddActivityRecord ----------------------------------------------------------------------------------
 
         public static bool PushActivityRecord(MyActivityRecord activityRecord)
@@ -547,6 +604,9 @@ namespace MapOfDiet.Services
             cmd.Parameters.AddWithValue("time", activityRecord.DateTime);
             return true;
         }
+
+
+
 
         //// Statistics ----------------------------------------------------------------------------------
 
@@ -590,55 +650,11 @@ namespace MapOfDiet.Services
             return result;
         }
 
+
+
+
+
         //// GetPlan (план получается не из бд, он там не хранится) ----------------------------------------------------------------------------------
-
-        public static async Task<UserProfile?> GetUserProfileAsync(int userId)
-        {
-            await using var conn = new NpgsqlConnection(connString);
-            await conn.OpenAsync();
-
-            try
-            {
-                UserProfile userProfile = new();
-
-                await using (var cmd = new NpgsqlCommand("SELECT name, height, date_birth, gender FROM users WHERE user_id = @user_id", conn))
-                {
-                    cmd.Parameters.AddWithValue("user_id", userId);
-
-                    await using var reader = await cmd.ExecuteReaderAsync();
-                    if (await reader.ReadAsync())
-                    {
-                        userProfile.Name = reader.GetString(0);
-                        userProfile.Height = reader.GetInt32(1);
-
-                        var birthDate = reader.GetDateTime(2);
-                        userProfile.Age = DateTime.Now.Year - birthDate.Year;
-                        if (DateTime.Now.Date < birthDate.AddYears(userProfile.Age)) userProfile.Age--; // корректировка по месяцу/дню
-
-                        userProfile.Gender = reader.GetChar(3);
-                    }
-                }
-
-                // Получаем вес
-                var latest = await GetLatestWeightAsync(userId);
-                if (latest != null)
-                {
-                    userProfile.NowWeight = latest.Value.Current;
-                    userProfile.TargetWeight = latest.Value.Target;
-                }
-
-                // Получаем категории
-                var categories = await GetCategoriesByUserIdAsync(userId);
-                userProfile.LikeCategories = categories.LikeCategories;
-                userProfile.DislikeCategories = categories.DislikeCategories;
-
-                return userProfile;
-            }
-            catch
-            {
-                return null;
-            }
-        }
 
         public static async Task<(double Current, double Target)?> GetLatestWeightAsync(int userId)
         {

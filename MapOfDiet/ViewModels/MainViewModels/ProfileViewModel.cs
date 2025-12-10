@@ -5,6 +5,7 @@ using MapOfDiet.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,8 @@ namespace MapOfDiet.ViewModels
 {
     public partial class ProfileViewModel : ObservableObject
     {
+        [ObservableProperty] private bool isLoaded;
+
         public string Title { get; set; }
         public string IconPath { get; set; }
 
@@ -25,37 +28,53 @@ namespace MapOfDiet.ViewModels
 
         [ObservableProperty] private string searchCategory;
         public ObservableCollection<Category> SearchResultsCategories { get; } = new();
-        public ObservableCollection<Category> LikeCategories { get; } = new();
-        public ObservableCollection<Category> DislikeCategories { get; } = new();
+        public ObservableCollection<Category> LikeCategories { get; set; } = new();
+        public ObservableCollection<Category> DislikeCategories { get; set; } = new();
 
         partial void OnNowWeightChanged(double value)
         {
-            var record = new WeightRecord
+            if (isLoaded == true)
             {
-                Date = DateOnly.FromDateTime(DateTime.Today),
-                Weight = value,
-                TargetWeight = TargetWeight
-            };
-            DBWork.pushNewWeightRecord(record);
+                var record = new WeightRecord
+                {
+                    Date = DateOnly.FromDateTime(DateTime.Today),
+                    Weight = value,
+                    TargetWeight = TargetWeight
+                };
+                DBWork.pushNewWeightRecord(record);
+            }
         }
 
         partial void OnTargetWeightChanged(double value)
         {
-            var record = new WeightRecord
+            if (isLoaded == true)
             {
-                Date = DateOnly.FromDateTime(DateTime.Today),
-                Weight = NowWeight,
-                TargetWeight = value
-            };
-            DBWork.pushNewWeightRecord(record);
+                var record = new WeightRecord
+                {
+                    Date = DateOnly.FromDateTime(DateTime.Today),
+                    Weight = NowWeight,
+                    TargetWeight = value
+                };
+                DBWork.pushNewWeightRecord(record);
+            }
         }
+
 
         [RelayCommand]
         private void AddCategory(Category category)
         {
             if (category == null) return;
-            if (!LikeCategories.Contains(category) && !DislikeCategories.Contains(category))
-                LikeCategories.Add(category);
+            if (category.IsEnabled)
+            {
+                if (!LikeCategories.Contains(category))
+                {
+                    LikeCategories.Add(category);
+                }
+            }
+            else if (!DislikeCategories.Contains(category))
+            {
+                DislikeCategories.Add(category);
+            }
         }
 
         [RelayCommand]
@@ -77,10 +96,11 @@ namespace MapOfDiet.ViewModels
         }
 
         [RelayCommand]
-        private void SaveProfile()
+        private async Task SaveProfile()
         {
             var profile = new UserProfile
             {
+                UserId = UserSession.UserId,
                 Name = Name,
                 Age = Age,
                 Height = Height,
@@ -90,6 +110,46 @@ namespace MapOfDiet.ViewModels
                 LikeCategories = LikeCategories.ToList(),
                 DislikeCategories = DislikeCategories.ToList()
             };
+            await DBWork.PushUserProfileAsync(profile);
         }
+
+        [RelayCommand]
+        private async Task GetProfile()
+        {
+            UserProfile? profile;
+            Debug.WriteLine($"DEBUG: UserIdInUserSession = {UserSession.UserId}");
+            profile = await DBWork.GetUserProfileAsync(UserSession.UserId);
+            if (profile == null)
+            {
+                Debug.WriteLine($"DEBUG: UserProfile = null");
+                return;
+            }
+            Debug.WriteLine($"DEBUG: UserIdInProfile = {profile.UserId}");
+            Name = profile.Name;
+            Age = profile.Age;
+            Height = profile.Height;
+            Gender = profile.Gender;
+            NowWeight = profile.NowWeight;
+            TargetWeight = profile.TargetWeight;
+            foreach (var cat in profile.LikeCategories) {
+                LikeCategories.Add(cat);
+            }
+            foreach (var cat in profile.DislikeCategories) {
+                DislikeCategories.Add(cat);
+            }
+        }
+
+        public ProfileViewModel()
+        {
+            IsLoaded = false;
+            InitializeAsync();
+        }
+
+        private async void InitializeAsync()
+        {
+            await GetProfile();
+            IsLoaded = true;
+        }
+
     }
 }
