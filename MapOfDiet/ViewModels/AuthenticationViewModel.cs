@@ -44,7 +44,7 @@ namespace MapOfDiet.ViewModels
 
             if (!success)
             {
-                MessageBox.Show("Такой логин уже существует", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Такой логин уже существует или пароль состоит меньше чем из 4 символов", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else
             {

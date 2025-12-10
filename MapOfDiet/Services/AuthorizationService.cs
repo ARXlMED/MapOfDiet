@@ -28,6 +28,7 @@ namespace MapOfDiet.Services
 
         public static bool registration(string login, string enteredPassword)
         {
+            if (enteredPassword.Length < 4) return false;
             var userAuth = new UserAuth
             {
                 Login = login,
