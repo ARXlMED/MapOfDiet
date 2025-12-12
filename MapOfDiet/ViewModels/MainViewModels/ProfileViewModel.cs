@@ -31,6 +31,18 @@ namespace MapOfDiet.ViewModels
         public ObservableCollection<Category> LikeCategories { get; set; } = new();
         public ObservableCollection<Category> DislikeCategories { get; set; } = new();
 
+        public ProfileViewModel()
+        {
+            IsLoaded = false;
+            InitializeAsync();
+        }
+
+        private async void InitializeAsync()
+        {
+            await GetProfile();
+            IsLoaded = true;
+        }
+
         partial void OnNowWeightChanged(double value)
         {
             if (isLoaded == true)
@@ -139,17 +151,7 @@ namespace MapOfDiet.ViewModels
             }
         }
 
-        public ProfileViewModel()
-        {
-            IsLoaded = false;
-            InitializeAsync();
-        }
 
-        private async void InitializeAsync()
-        {
-            await GetProfile();
-            IsLoaded = true;
-        }
 
     }
 }

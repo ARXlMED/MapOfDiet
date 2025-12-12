@@ -54,6 +54,10 @@
             <Setter Property="BorderBrush" Value="#444"/>
             <Setter Property="BorderThickness" Value="0.5"/>
         </Style>
+
+        <Style TargetType="TabPanel">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
     </Window.Resources>
 
     <Grid>
@@ -158,18 +162,22 @@
                                 <TextBox Text="{Binding SearchIngredient}" Width="350" FontSize="20"/>
                                 <Button Content="Поиск" Command="{Binding SearchIngredientsCommand}" Width="120"/>
                             </StackPanel>
+                            
+                            <TextBlock Text="Масса (количество) ингридиента" FontSize="20" TextWrapping="Wrap" TextAlignment="Left"/>
+                            <TextBox Text="{Binding MassIngredient}"/>
+                            
                             <TextBlock Text="Найденные результаты:" FontSize="20"/>
                             <ListBox ItemsSource="{Binding SearchResultsIngredients}" Height="Auto">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Width="200">
+                                            <TextBlock>
                                                 <TextBlock.Text>
                                                     <MultiBinding StringFormat="{}{0} ({1})">
                                                         <Binding Path="Name"/>
                                                         <Binding Path="MeasureName"/>
                                                     </MultiBinding>
-                                                </TextBlock.Text> 
+                                                </TextBlock.Text>
                                             </TextBlock>
                                             <Button Content="Добавить"
                                             Command="{Binding DataContext.AddIngredientCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
@@ -180,16 +188,12 @@
                                 </ListBox.ItemTemplate>
                             </ListBox>
 
-                            <TextBlock Text="Масса ингридиента" FontSize="30" TextWrapping="Wrap" TextAlignment="Center"/>
-                            <TextBox Text="{Binding MassIngredient}"/>
-
-
-                            <TextBlock Text="Выбранные ингредиенты:" FontSize="30" TextWrapping="Wrap" TextAlignment="Center"/>
+                            <TextBlock Text="Выбранные ингредиенты:" FontSize="20" TextWrapping="Wrap" TextAlignment="Left"/>
                             <ListBox ItemsSource="{Binding SelectedIngredients}" Height="Auto">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Width="200">
+                                            <TextBlock>
                                                 <TextBlock.Text>
                                                     <MultiBinding StringFormat="{}{0} - {1} {2}">
                                                         <Binding Path="Name"/>
@@ -206,10 +210,10 @@
                         </StackPanel>
 
                         <TextBlock Text="Описание" Grid.Row="8" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
-                        <TextBox Text="{Binding Description}" Grid.Row="8" Grid.Column="1" VerticalContentAlignment="Center" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" FontSize="20"/>
+                        <TextBox Text="{Binding Description}" Grid.Row="8" Grid.Column="1" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" FontSize="20"/>
 
-                        <TextBlock Text="Описание процесса приготовления" Grid.Row="9" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"  FontSize="30"/>
-                        <TextBox Text="{Binding CookingDescription}" Grid.Row="9" Grid.Column="1" VerticalContentAlignment="Center" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" FontSize="20"/>
+                        <TextBlock Text="Описание процесса приготовления" Grid.Row="9" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" FontSize="30"/>
+                        <TextBox Text="{Binding CookingDescription}" Grid.Row="9" Grid.Column="1" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" FontSize="20"/>
 
                         <Button Content="Сохранить рецепт" Command="{Binding SaveRecipeCommand}" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
                     </Grid>
@@ -254,11 +258,11 @@
                             <ColumnDefinition Width="805*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="60"/>
-                            <RowDefinition Height="100"/>
-                            <RowDefinition Height="300"/>
-                            <RowDefinition Height="100"/>
-                            <RowDefinition Height="80"/>
+                            <RowDefinition Height="60*"/>
+                            <RowDefinition Height="100*"/>
+                            <RowDefinition Height="300*"/>
+                            <RowDefinition Height="100*"/>
+                            <RowDefinition Height="80*"/>
                         </Grid.RowDefinitions>
 
                         <Border Grid.Row="1" Grid.Column="0"/>
@@ -291,8 +295,8 @@
                             <ColumnDefinition Width="805*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="60"/>
-                            <RowDefinition Height="100"/>
+                            <RowDefinition Height="60*"/>
+                            <RowDefinition Height="100*"/>
                             <RowDefinition Height="200"/>
                             <RowDefinition Height="100"/>
                             <RowDefinition Height="100"/>
