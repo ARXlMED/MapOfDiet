@@ -13,25 +13,28 @@ namespace MapOfDiet.ViewModels
 {
     public partial class RecipeViewModel : ObservableObject
     {
+        [ObservableProperty] private bool isLoaded;
+
         public string Title { get; set; }
         public string IconPath { get; set; }
 
-        [ObservableProperty] private string searchName = string.Empty;
+        [ObservableProperty] private string searchNameRecipe = string.Empty;
+
         [ObservableProperty] private Food recipe;
-        public ObservableCollection<Food> SearchResultsFoods { get; } = new();
+        public ObservableCollection<Food> SearchResultsRecipe { get; } = new();
 
         [RelayCommand]
         private void SearchRecipe()
         {
-            SearchResultsFoods.Clear();
-            foreach (var food in DBWork.SearchFoodsByName(searchName))
-                SearchResultsFoods.Add(food);
+            SearchResultsRecipe.Clear();
+            foreach (var food in DBWork.SearchFoodsByName(searchNameRecipe))
+                SearchResultsRecipe.Add(food);
         }
 
         [RelayCommand]
-        private void OpenRecipe()
+        private void ShowRecipe()
         {
-            // рядом с каждым найденынм рецептом должна открываться кнопка на которую нажимаешь и тогда выбирается recipe. После этого скорее всего надо сделать переход в другую xaml с просмотром блюда
+
         }
     }
 }

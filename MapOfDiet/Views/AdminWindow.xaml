@@ -66,16 +66,16 @@
                             <ColumnDefinition Width="805*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="80"/>
                             <RowDefinition Height="100"/>
                             <RowDefinition Height="100"/>
                             <RowDefinition Height="100"/>
                             <RowDefinition Height="100"/>
                             <RowDefinition Height="100"/>
-                            <RowDefinition Height="600"/>
-                            <RowDefinition Height="600"/>
-                            <RowDefinition Height="300"/>
-                            <RowDefinition Height="300"/>
+                            <RowDefinition Height="300*"/>
+                            <RowDefinition Height="300*"/>
+                            <RowDefinition Height="200"/>
+                            <RowDefinition Height="200"/>
                             <RowDefinition Height="100"/>
                         </Grid.RowDefinitions>
 
@@ -95,9 +95,11 @@
                         <Border Grid.Row="7" Grid.Column="1"/>
                         <Border Grid.Row="8" Grid.Column="0"/>
                         <Border Grid.Row="8" Grid.Column="1"/>
+                        <Border Grid.Row="9" Grid.Column="0"/>
+                        <Border Grid.Row="9" Grid.Column="1"/>
 
                         <Label Content="Добавить рецепт" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0"
-                               HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="30" Foreground="White"/>
+                               HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" Foreground="White"/>
 
                         <TextBlock Text="Название" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30"/>
                         <TextBox Text="{Binding Name}" Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Center" FontSize="20" Margin="15, 15, 15, 15"/>
@@ -122,7 +124,7 @@
                                 <Button Content="Поиск" Command="{Binding SearchCategoriesCommand}" Width="120"/>
                             </StackPanel>
                             <TextBlock Text="Найденные результаты:" FontSize="20"/>
-                            <ListBox ItemsSource="{Binding SearchResultsCategories}" Height="250">
+                            <ListBox ItemsSource="{Binding SearchResultsCategories}" Height="Auto">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
@@ -135,7 +137,7 @@
                             </ListBox>
 
                             <TextBlock Text="Выбранные категории:" FontSize="20"/>
-                            <ListBox ItemsSource="{Binding SelectedCategories}" Height="250">
+                            <ListBox ItemsSource="{Binding SelectedCategories}" Height="Auto">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
@@ -157,7 +159,7 @@
                                 <Button Content="Поиск" Command="{Binding SearchIngredientsCommand}" Width="120"/>
                             </StackPanel>
                             <TextBlock Text="Найденные результаты:" FontSize="20"/>
-                            <ListBox ItemsSource="{Binding SearchResultsIngredients}" Height="250">
+                            <ListBox ItemsSource="{Binding SearchResultsIngredients}" Height="Auto">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
@@ -183,7 +185,7 @@
 
 
                             <TextBlock Text="Выбранные ингредиенты:" FontSize="30" TextWrapping="Wrap" TextAlignment="Center"/>
-                            <ListBox ItemsSource="{Binding SelectedIngredients}" Height="250">
+                            <ListBox ItemsSource="{Binding SelectedIngredients}" Height="Auto">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
@@ -221,18 +223,16 @@
                             <ColumnDefinition Width="805*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="60"/>
-                            <RowDefinition Height="100"/>
-                            <RowDefinition Height="400"/>
-                            <RowDefinition Height="80"/>
+                            <RowDefinition Height="60*"/>
+                            <RowDefinition Height="100*"/>
+                            <RowDefinition Height="400*"/>
+                            <RowDefinition Height="80*"/>
                         </Grid.RowDefinitions>
 
-                        <!-- Row 1 -->
-                        <Border  Grid.Row="1" Grid.Column="0"/>
-                        <Border  Grid.Row="1" Grid.Column="1"/>
-                        <!-- Row 2 -->
-                        <Border  Grid.Row="2" Grid.Column="0"/>
-                        <Border  Grid.Row="2" Grid.Column="1"/>
+                        <Border Grid.Row="1" Grid.Column="0"/>
+                        <Border Grid.Row="1" Grid.Column="1"/>
+                        <Border Grid.Row="2" Grid.Column="0"/>
+                        <Border Grid.Row="2" Grid.Column="1"/>
 
                         <TextBlock Text="Добавить категорию" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40"/>
 
@@ -240,7 +240,7 @@
                         <TextBox Text="{Binding NameCategory}" Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Center" FontSize="20" Margin="15, 15, 15, 15"/>
                         
                         <TextBlock Text="Описание" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
-                        <TextBox Text="{Binding DescriptionCategory}" Grid.Row="2" Grid.Column="1" VerticalContentAlignment="Center" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" FontSize="20" Margin="15, 15, 15, 15"/>
+                        <TextBox Text="{Binding DescriptionCategory}" Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" FontSize="20" Margin="15, 15, 15, 15"/>
 
                         <Button Content="Сохранить категорию" Command="{Binding SaveCategoryCommand}" Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
                     </Grid>
@@ -250,26 +250,23 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="222*"/>
+                            <ColumnDefinition Width="242*"/>
                             <ColumnDefinition Width="805*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="60"/>
                             <RowDefinition Height="100"/>
-                            <RowDefinition Height="400"/>
-                            <RowDefinition Height="200"/>
+                            <RowDefinition Height="300"/>
+                            <RowDefinition Height="100"/>
                             <RowDefinition Height="80"/>
                         </Grid.RowDefinitions>
 
-                        <!-- Row 1 -->
-                        <Border  Grid.Row="1" Grid.Column="0"/>
-                        <Border  Grid.Row="1" Grid.Column="1"/>
-                        <!-- Row 2 -->
-                        <Border  Grid.Row="2" Grid.Column="0"/>
-                        <Border  Grid.Row="2" Grid.Column="1"/>
-                        <!-- Row 3 -->
-                        <Border  Grid.Row="3" Grid.Column="0"/>
-                        <Border  Grid.Row="3" Grid.Column="1"/>
+                        <Border Grid.Row="1" Grid.Column="0"/>
+                        <Border Grid.Row="1" Grid.Column="1"/>
+                        <Border Grid.Row="2" Grid.Column="0"/>
+                        <Border Grid.Row="2" Grid.Column="1"/>
+                        <Border Grid.Row="3" Grid.Column="0"/>
+                        <Border Grid.Row="3" Grid.Column="1"/>
 
                         <TextBlock Text="Добавить ингредиент" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40"/>
 
@@ -277,12 +274,12 @@
                         <TextBox Text="{Binding NameIngredient}" Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Center" FontSize="20" Margin="15, 15, 15, 15"/>
 
                         <TextBlock Text="Описание" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
-                        <TextBox Text="{Binding DescriptionIngredient}" Grid.Row="2" Grid.Column="1" VerticalContentAlignment="Center" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" FontSize="20" Margin="15, 15, 15, 15"/>
+                        <TextBox Text="{Binding DescriptionIngredient}" Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" FontSize="20" Margin="15, 15, 15, 15"/>
 
                         <TextBlock Text="Название единицы измерения" TextWrapping="Wrap" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" TextAlignment="Center"/>
-                        <TextBox Text="{Binding MeasureNameIngredient}" Grid.Row="3" Grid.Column="1" VerticalContentAlignment="Center" FontSize="20" Margin="15, 15, 15, 15"/>
+                        <TextBox Text="{Binding MeasureNameIngredient}" Grid.Row="3" Grid.Column="1" FontSize="20" Margin="15, 15, 15, 15"/>
 
-                        <Button Content="Сохранить категорию" Command="{Binding SaveIngredientCommand}" Grid.Row="4" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
+                        <Button Content="Сохранить ингредиент" Command="{Binding SaveIngredientCommand}" Grid.Row="4" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
                     </Grid>
                 </ScrollViewer>
             </TabItem>
@@ -290,30 +287,26 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="222*"/>
+                            <ColumnDefinition Width="242*"/>
                             <ColumnDefinition Width="805*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="60"/>
                             <RowDefinition Height="100"/>
-                            <RowDefinition Height="400"/>
                             <RowDefinition Height="200"/>
-                            <RowDefinition Height="300"/>
+                            <RowDefinition Height="100"/>
+                            <RowDefinition Height="100"/>
                             <RowDefinition Height="80"/>
                         </Grid.RowDefinitions>
 
-                        <!-- Row 1 -->
-                        <Border  Grid.Row="1" Grid.Column="0"/>
-                        <Border  Grid.Row="1" Grid.Column="1"/>
-                        <!-- Row 2 -->
-                        <Border  Grid.Row="2" Grid.Column="0"/>
-                        <Border  Grid.Row="2" Grid.Column="1"/>
-                        <!-- Row 3 -->
-                        <Border  Grid.Row="3" Grid.Column="0"/>
-                        <Border  Grid.Row="3" Grid.Column="1"/>
-                        <!-- Row 4 -->
-                        <Border  Grid.Row="4" Grid.Column="0"/>
-                        <Border  Grid.Row="4" Grid.Column="1"/>
+                        <Border Grid.Row="1" Grid.Column="0"/>
+                        <Border Grid.Row="1" Grid.Column="1"/>
+                        <Border Grid.Row="2" Grid.Column="0"/>
+                        <Border Grid.Row="2" Grid.Column="1"/>
+                        <Border Grid.Row="3" Grid.Column="0"/>
+                        <Border Grid.Row="3" Grid.Column="1"/>
+                        <Border Grid.Row="4" Grid.Column="0"/>
+                        <Border Grid.Row="4" Grid.Column="1"/>
 
                         <TextBlock Text="Добавить физическую активность" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40"/>
 
@@ -321,15 +314,15 @@
                         <TextBox Text="{Binding NameActivity}" Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Center" FontSize="20" Margin="15, 15, 15, 15"/>
 
                         <TextBlock Text="Описание" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
-                        <TextBox Text="{Binding DescriptionActivity}" Grid.Row="2" Grid.Column="1" VerticalContentAlignment="Center" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" FontSize="20" Margin="15, 15, 15, 15"/>
+                        <TextBox Text="{Binding DescriptionActivity}" Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" FontSize="20" Margin="15, 15, 15, 15"/>
 
                         <TextBlock Text="Название единицы измерения" TextWrapping="Wrap" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" FontSize="30"/>
                         <TextBox Text="{Binding MeasureNameActivity}" Grid.Row="3" Grid.Column="1" VerticalContentAlignment="Center" FontSize="20" Margin="15, 15, 15, 15"/>
 
-                        <TextBlock Text="Сколько калорий тратится при совершении 100 ед. измерения" TextWrapping="Wrap" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" FontSize="30"/>
+                        <TextBlock Text="Сколько калорий тратится при совершении 100 ед. измерения" TextWrapping="Wrap" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" FontSize="22"/>
                         <TextBox Text="{Binding MeasureToCaloriesActivity}" Grid.Row="4" Grid.Column="1" VerticalContentAlignment="Center" FontSize="20" Cursor="" Margin="15, 15, 15, 15"/>
 
-                        <Button Content="Сохранить категорию" Command="{Binding SaveActivityCommand}" Grid.Row="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"
+                        <Button Content="Сохранить физическую активность" Command="{Binding SaveActivityCommand}" Grid.Row="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"
                                 IsEnabled="{Binding MeasureToCaloriesActivity, Converter={StaticResource PositiveDoubleToBoolConverter}}"/>
                     </Grid>
                 </ScrollViewer>

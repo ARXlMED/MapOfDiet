@@ -6,127 +6,120 @@
     <UserControl.Resources>
         <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <conv:GenderToBoolConverter x:Key="GenderToBoolConverter"/>
-
-        <Style TargetType="Border">
-            <Setter Property="BorderBrush" Value="Black"/>
-            <Setter Property="BorderThickness" Value="1"/>
-        </Style>
     </UserControl.Resources>
 
-    <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <Grid x:Name="ProfileGrid" Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="222*"/>
-                    <ColumnDefinition Width="805*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="120"/>
-                    <RowDefinition Height="140"/>
-                    <RowDefinition Height="140"/>
-                    <RowDefinition Height="140"/>
-                    <RowDefinition Height="140"/>
-                    <RowDefinition Height="140"/>
-                    <RowDefinition Height="100"/>
-                    <RowDefinition Height="300"/>
-                    <RowDefinition Height="300"/>
-                    <RowDefinition Height="300"/>
-                    <RowDefinition Height="100"/>
-                </Grid.RowDefinitions>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid x:Name="ProfileGrid" Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="222*"/>
+                <ColumnDefinition Width="805*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="120"/>
+                <RowDefinition Height="140"/>
+                <RowDefinition Height="140"/>
+                <RowDefinition Height="140"/>
+                <RowDefinition Height="140"/>
+                <RowDefinition Height="140"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="300"/>
+                <RowDefinition Height="300"/>
+                <RowDefinition Height="300"/>
+                <RowDefinition Height="100"/>
+            </Grid.RowDefinitions>
 
-                <Border Grid.Row="1" Grid.Column="0"/>
-                <Border Grid.Row="2" Grid.Column="0"/>
-                <Border Grid.Row="3" Grid.Column="0"/>
-                <Border Grid.Row="4" Grid.Column="0"/>
-                <Border Grid.Row="5" Grid.Column="0"/>
-                <Border Grid.Row="6" Grid.Column="0"/>
-                <Border Grid.Row="7" Grid.Column="0"/>
-                <Border Grid.Row="8" Grid.Column="0"/>
-                <Border Grid.Row="9" Grid.Column="0"/>
-                <Border Grid.Row="1" Grid.Column="1"/>
-                <Border Grid.Row="2" Grid.Column="1"/>
-                <Border Grid.Row="3" Grid.Column="1"/>
-                <Border Grid.Row="4" Grid.Column="1"/>
-                <Border Grid.Row="5" Grid.Column="1"/>
-                <Border Grid.Row="6" Grid.Column="1"/>
-                <Border Grid.Row="7" Grid.Column="1"/>
-                <Border Grid.Row="8" Grid.Column="1"/>
-                <Border Grid.Row="9" Grid.Column="1"/>
-                
-                <TextBlock Text="Профиль" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36"/>
-                <TextBlock Text="Имя" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36"/>
-                <TextBox Text="{Binding Name}" Grid.Row="1" Grid.Column="1" Margin="25,25,25,25" TextWrapping="Wrap" VerticalContentAlignment="Center" FontSize="30"/>
-                <TextBlock Text="Вес" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36"/>
-                <TextBox Text="{Binding NowWeight}" Grid.Row="2" Grid.Column="1" Margin="25,25,25,25" TextWrapping="Wrap" VerticalContentAlignment="Center" FontSize="30"/>
-                <TextBlock Text="Желаемый вес" Grid.Row="3" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36"/>
-                <TextBox Text="{Binding TargetWeight}" Grid.Row="3" Grid.Column="1" Margin="25,25,25,25" TextWrapping="Wrap" VerticalContentAlignment="Center" FontSize="30"/>
-                <TextBlock Text="Возраст" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36"/>
-                <TextBox Text="{Binding Age}" Grid.Row="4" Grid.Column="1" Margin="25,25,25,25" TextWrapping="Wrap" VerticalContentAlignment="Center" FontSize="30"/>
-                <TextBlock Text="Рост" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36"/>
-                <TextBox Text="{Binding Height}" Grid.Row="5" Grid.Column="1" Margin="25,25,25,25" TextWrapping="Wrap" VerticalContentAlignment="Center" FontSize="30"/>
-                <TextBlock Text="Пол" Grid.Row="6" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36"/>
-                
-                <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <RadioButton Content="Мужской" FontSize="30" VerticalContentAlignment="Center" Margin="25"
-                        IsChecked="{Binding Gender, Mode=TwoWay, Converter={StaticResource GenderToBoolConverter}, ConverterParameter=M}"
-                        GroupName="Gender"/>
-                    <RadioButton Content="Женский" FontSize="30" VerticalContentAlignment="Center" Margin="25"
-                        IsChecked="{Binding Gender, Mode=TwoWay, Converter={StaticResource GenderToBoolConverter}, ConverterParameter=F}"
-                        GroupName="Gender"/>
+            <Border Grid.Row="1" Grid.Column="0"/>
+            <Border Grid.Row="2" Grid.Column="0"/>
+            <Border Grid.Row="3" Grid.Column="0"/>
+            <Border Grid.Row="4" Grid.Column="0"/>
+            <Border Grid.Row="5" Grid.Column="0"/>
+            <Border Grid.Row="6" Grid.Column="0"/>
+            <Border Grid.Row="7" Grid.Column="0"/>
+            <Border Grid.Row="8" Grid.Column="0"/>
+            <Border Grid.Row="9" Grid.Column="0"/>
+            <Border Grid.Row="1" Grid.Column="1"/>
+            <Border Grid.Row="2" Grid.Column="1"/>
+            <Border Grid.Row="3" Grid.Column="1"/>
+            <Border Grid.Row="4" Grid.Column="1"/>
+            <Border Grid.Row="5" Grid.Column="1"/>
+            <Border Grid.Row="6" Grid.Column="1"/>
+            <Border Grid.Row="7" Grid.Column="1"/>
+            <Border Grid.Row="8" Grid.Column="1"/>
+            <Border Grid.Row="9" Grid.Column="1"/>
+
+            <TextBlock Text="Профиль" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36"/>
+            <TextBlock Text="Имя" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36"/>
+            <TextBox Text="{Binding Name}" Grid.Row="1" Grid.Column="1" Margin="25,25,25,25" TextWrapping="Wrap" VerticalContentAlignment="Center" FontSize="30"/>
+            <TextBlock Text="Вес" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36"/>
+            <TextBox Text="{Binding NowWeight}" Grid.Row="2" Grid.Column="1" Margin="25,25,25,25" TextWrapping="Wrap" VerticalContentAlignment="Center" FontSize="30"/>
+            <TextBlock Text="Желаемый вес" Grid.Row="3" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36"/>
+            <TextBox Text="{Binding TargetWeight}" Grid.Row="3" Grid.Column="1" Margin="25,25,25,25" TextWrapping="Wrap" VerticalContentAlignment="Center" FontSize="30"/>
+            <TextBlock Text="Возраст" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36"/>
+            <TextBox Text="{Binding Age}" Grid.Row="4" Grid.Column="1" Margin="25,25,25,25" TextWrapping="Wrap" VerticalContentAlignment="Center" FontSize="30"/>
+            <TextBlock Text="Рост" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36"/>
+            <TextBox Text="{Binding Height}" Grid.Row="5" Grid.Column="1" Margin="25,25,25,25" TextWrapping="Wrap" VerticalContentAlignment="Center" FontSize="30"/>
+            <TextBlock Text="Пол" Grid.Row="6" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36"/>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <RadioButton Content="Мужской" FontSize="30" VerticalContentAlignment="Center" Margin="25"
+                IsChecked="{Binding Gender, Mode=TwoWay, Converter={StaticResource GenderToBoolConverter}, ConverterParameter=M}"
+                GroupName="Gender"/>
+                <RadioButton Content="Женский" FontSize="30" VerticalContentAlignment="Center" Margin="25"
+                IsChecked="{Binding Gender, Mode=TwoWay, Converter={StaticResource GenderToBoolConverter}, ConverterParameter=F}"
+                GroupName="Gender"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="7" Grid.Column="1" Margin="15, 15, 15, 15">
+                <TextBlock Text="Поиск категорий:" FontSize="30"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox Text="{Binding SearchCategory}" Width="350" FontSize="20"/>
+                    <Button Content="Поиск" Command="{Binding SearchCategoriesCommand}" Width="120"/>
                 </StackPanel>
-
-                <StackPanel Grid.Row="7" Grid.Column="1" Margin="15, 15, 15, 15">
-                    <TextBlock Text="Поиск категорий:" FontSize="30"/>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBox Text="{Binding SearchCategory}" Width="350" FontSize="20"/>
-                        <Button Content="Поиск" Command="{Binding SearchCategoriesCommand}" Width="120"/>
-                    </StackPanel>
-                    <TextBlock Text="Найденные результаты:" FontSize="20"/>
-                    <ListBox ItemsSource="{Binding SearchResultsCategories}" Height="150">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Name}" Width="200"/>
-                                    <CheckBox IsChecked="{Binding IsEnabled}" Width="20" Height="20"/>
-                                    <Button Content="Добавить" Command="{Binding DataContext.AddCategoryCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" CommandParameter="{Binding}"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </StackPanel>
-
-
-                <TextBlock Text="Любимая еда" Grid.Row="8" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36"/>
-                <ListBox ItemsSource="{Binding LikeCategories}" Height="250" Grid.Row="8" Grid.Column="1" Margin="15, 15, 15, 15">
+                <TextBlock Text="Найденные результаты:" FontSize="20"/>
+                <ListBox ItemsSource="{Binding SearchResultsCategories}" Height="150">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="{Binding Name}" Width="200"/>
-                                <Button Content="Удалить"
-                                Command="{Binding DataContext.RemoveCategoryCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                CommandParameter="{Binding}"/>
+                                <CheckBox IsChecked="{Binding IsEnabled}" Width="20" Height="20"/>
+                                <Button Content="Добавить" Command="{Binding DataContext.AddCategoryCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" CommandParameter="{Binding}"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
+            </StackPanel>
 
-                <TextBlock Text="Нелюбимая еда" Grid.Row="9" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36"/>
-                <ListBox ItemsSource="{Binding DislikeCategories}" Height="250" Grid.Row="9" Grid.Column="1" Margin="15, 15, 15, 15">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Name}" Width="200"/>
-                                <Button Content="Удалить"
-                                Command="{Binding DataContext.RemoveCategoryCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                CommandParameter="{Binding}"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
 
-                <Button Command="{Binding SaveProfileCommand}" Content="Сохранить всё" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" FontSize="40"/>
-            </Grid>
-        </ScrollViewer>
-    </Grid>
+            <TextBlock Text="Любимая еда" Grid.Row="8" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36"/>
+            <ListBox ItemsSource="{Binding LikeCategories}" Height="250" Grid.Row="8" Grid.Column="1" Margin="15, 15, 15, 15">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Name}" Width="200"/>
+                            <Button Content="Удалить"
+                        Command="{Binding DataContext.RemoveCategoryCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                        CommandParameter="{Binding}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <TextBlock Text="Нелюбимая еда" Grid.Row="9" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36"/>
+            <ListBox ItemsSource="{Binding DislikeCategories}" Height="250" Grid.Row="9" Grid.Column="1" Margin="15, 15, 15, 15">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Name}" Width="200"/>
+                            <Button Content="Удалить"
+                        Command="{Binding DataContext.RemoveCategoryCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                        CommandParameter="{Binding}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <Button Command="{Binding SaveProfileCommand}" Content="Сохранить всё" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" FontSize="40"/>
+        </Grid>
+    </ScrollViewer>
 </UserControl>
 
