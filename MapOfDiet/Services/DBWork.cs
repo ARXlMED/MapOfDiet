@@ -138,14 +138,14 @@ namespace MapOfDiet.Services
         //// AdminWindow ----------------------------------------------------------------------------------
 
         // Добавляет новую еду в бд
-        public static void AddRecipe(Food recipe)
+        public static void AddFood(Food recipe)
         {
             using var conn = new NpgsqlConnection(connString);
             conn.Open();
 
             using var cmd = new NpgsqlCommand(
-                "INSERT INTO foods (name, standard_mass, calories, proteins, fats, carbohydrates, description) " +
-                "VALUES (@name, @mass, @calories, @proteins, @fats, @carbohydrates, @desc) RETURNING food_id", conn);
+                "INSERT INTO foods (name, standard_mass, calories, proteins, fats, carbohydrates, description, cooking_description) " +
+                "VALUES (@name, @mass, @calories, @proteins, @fats, @carbohydrates, @desc, @cook_desc) RETURNING food_id", conn);
 
             cmd.Parameters.AddWithValue("name", recipe.Name);
             cmd.Parameters.AddWithValue("mass", recipe.Mass > 0 ? recipe.Mass : 100);
@@ -154,6 +154,7 @@ namespace MapOfDiet.Services
             cmd.Parameters.AddWithValue("fats", recipe.Fats);
             cmd.Parameters.AddWithValue("carbohydrates", recipe.Carbohydrates);
             cmd.Parameters.AddWithValue("desc", recipe.Description ?? "");
+            cmd.Parameters.AddWithValue("cook_desc", recipe.CookingDescription ?? "");
 
             var scalar = cmd.ExecuteScalar();
             if (scalar is null || scalar == DBNull.Value)
@@ -512,7 +513,7 @@ namespace MapOfDiet.Services
         {
             using var conn = new NpgsqlConnection(connString);
             conn.Open();
-            using var cmd = new NpgsqlCommand("SELECT name, calories, proteins, fats, carbohydrates, description FROM foods WHERE food_id = @FoodId", conn);
+            using var cmd = new NpgsqlCommand("SELECT name, calories, proteins, fats, carbohydrates, description, cooking_description FROM foods WHERE food_id = @FoodId", conn);
             cmd.Parameters.AddWithValue("FoodId", foodId);
             using var reader = cmd.ExecuteReader();
             if (reader.Read())
@@ -525,6 +526,7 @@ namespace MapOfDiet.Services
                     Fats = reader.GetDouble(3),
                     Carbohydrates = reader.GetDouble(4),
                     Description = reader.GetString(5),
+                    CookingDescription = reader.GetString(6)
                 };
                 reader.Close();
 
@@ -542,7 +544,7 @@ namespace MapOfDiet.Services
             conn.Open();
 
             using var cmd = new NpgsqlCommand(
-                "SELECT food_id, name, description, calories, proteins, fats, carbohydrates " +
+                "SELECT food_id, name, description, calories, proteins, fats, carbohydrates, cooking_description " +
                 "FROM foods " +
                 "WHERE name ILIKE @name " +
                 "ORDER BY name LIMIT 10", conn);
@@ -563,6 +565,7 @@ namespace MapOfDiet.Services
                     Fats = reader.IsDBNull(5) ? 0 : reader.GetDouble(5),
                     Carbohydrates = reader.IsDBNull(6) ? 0 : reader.GetDouble(6),
                     Mass = 100, 
+                    CookingDescription = reader.GetString(7),
                     Categories = GetAllCategoriesByFoodId(FoodId), 
                     Ingredients = GetAllIngredientByFoodId(FoodId) 
                 });

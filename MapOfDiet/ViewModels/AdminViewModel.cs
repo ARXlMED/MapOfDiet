@@ -74,6 +74,7 @@ namespace MapOfDiet.ViewModels
         [ObservableProperty] private double fats;
         [ObservableProperty] private double carbohydrates;
         [ObservableProperty] private string description;
+        [ObservableProperty] private string cookingDescription;
 
         [ObservableProperty] private string searchIngredient = string.Empty;
         [ObservableProperty] private string searchCategory = string.Empty;
@@ -144,10 +145,11 @@ namespace MapOfDiet.ViewModels
                 Carbohydrates = Carbohydrates,
                 Categories = SelectedCategories.ToList(),
                 Ingredients = SelectedIngredients.ToList(),
-                Description = Description
+                Description = Description,
+                CookingDescription = CookingDescription
             };
 
-            DBWork.AddRecipe(recipe);
+            DBWork.AddFood(recipe);
         }
     }
 }
