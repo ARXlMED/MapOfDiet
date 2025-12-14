@@ -81,6 +81,7 @@
                             <RowDefinition Height="200"/>
                             <RowDefinition Height="200"/>
                             <RowDefinition Height="100"/>
+                            <RowDefinition Height="100"/>
                         </Grid.RowDefinitions>
 
                         <Border Grid.Row="1" Grid.Column="0"/>
@@ -101,6 +102,8 @@
                         <Border Grid.Row="8" Grid.Column="1"/>
                         <Border Grid.Row="9" Grid.Column="0"/>
                         <Border Grid.Row="9" Grid.Column="1"/>
+                        <Border Grid.Row="10" Grid.Column="0"/>
+                        <Border Grid.Row="10" Grid.Column="1"/>
 
                         <Label Content="Добавить рецепт" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0"
                                HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" Foreground="White"/>
@@ -215,7 +218,13 @@
                         <TextBlock Text="Описание процесса приготовления" Grid.Row="9" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" FontSize="30"/>
                         <TextBox Text="{Binding CookingDescription}" Grid.Row="9" Grid.Column="1" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" FontSize="20"/>
 
-                        <Button Content="Сохранить рецепт" Command="{Binding SaveRecipeCommand}" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+                        <TextBlock Text="Добавить фото" Grid.Row="10" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" FontSize="30"/>
+                        <StackPanel Orientation="Horizontal" Grid.Row="10" Grid.Column="1">
+                            <Button Content="Добавить/изменить изображение" Command="{Binding AddImageCommand}" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Image Source="{Binding ImageBitmap}"/>
+                        </StackPanel>
+                        
+                        <Button Content="Сохранить рецепт" Command="{Binding SaveRecipeCommand}" Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
                     </Grid>
                 </ScrollViewer>
             </TabItem>

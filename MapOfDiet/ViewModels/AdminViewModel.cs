@@ -6,67 +6,18 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 
 namespace MapOfDiet.ViewModels
 {
     public partial class AdminViewModel : ObservableObject
     {
-        // Categories
-        [ObservableProperty] string nameCategory;
-        [ObservableProperty] string descriptionCategory;
-
-        // Ingredients
-        [ObservableProperty] string nameIngredient;
-        [ObservableProperty] string descriptionIngredient;
-        [ObservableProperty] string measureNameIngredient;
-
-        // Phys Activity
-        [ObservableProperty] string nameActivity;
-        [ObservableProperty] string descriptionActivity;
-        [ObservableProperty] string measureNameActivity;
-        [ObservableProperty] double measureToCaloriesActivity; // 100 действий сколько калорий
-
-        [RelayCommand]
-        private void SaveCategory()
-        {
-            var category = new Category
-            {
-                Name = NameCategory,
-                Description = DescriptionCategory
-            };
-            DBWork.pushNewCategory(category);
-        }
-
-        [RelayCommand]
-        private void SaveIngredient()
-        {
-            var ingredient = new Ingredient
-            {
-                Name = NameIngredient,
-                Description = DescriptionIngredient,
-                MeasureName = MeasureNameIngredient
-            };
-            DBWork.pushNewIngredient(ingredient);
-        }
-
-        [RelayCommand]
-        private void SaveActivity()
-        {
-            var activity = new MyActivity
-            {
-                Name = NameActivity,
-                Description = DescriptionActivity,
-                MeasureName = MeasureNameActivity,
-                MeasureToCalories = MeasureToCaloriesActivity
-            };
-            DBWork.pushNewActivity(activity);
-        }
-
-
         // ADD RECIPE
         [ObservableProperty] private string name = string.Empty;
         [ObservableProperty] private int calories;
@@ -80,6 +31,9 @@ namespace MapOfDiet.ViewModels
         [ObservableProperty] private string searchCategory = string.Empty;
 
         [ObservableProperty] private double massIngredient;
+
+        [ObservableProperty] private byte[] imageBytes;
+        [ObservableProperty] private BitmapImage imageBitmap;
         public ObservableCollection<Category> SearchResultsCategories { get; } = new();
         public ObservableCollection<Ingredient> SearchResultsIngredients { get; } = new();
 
@@ -134,6 +88,30 @@ namespace MapOfDiet.ViewModels
         }
 
         [RelayCommand]
+        private void AddImage()
+        {
+            var dlg = new Microsoft.Win32.OpenFileDialog
+            {
+                Filter = "Image files (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg"
+            };
+
+            if (dlg.ShowDialog() == true)
+            {
+                ImageBytes = File.ReadAllBytes(dlg.FileName);
+
+                using var ms = new MemoryStream(ImageBytes);
+                var bmp = new BitmapImage();
+                bmp.BeginInit();
+                bmp.CacheOption = BitmapCacheOption.OnLoad;
+                bmp.StreamSource = ms;
+                bmp.EndInit();
+                bmp.Freeze();
+
+                ImageBitmap = bmp;
+            }
+        }
+
+        [RelayCommand]
         private void SaveRecipe()
         {
             var recipe = new Food
@@ -146,10 +124,62 @@ namespace MapOfDiet.ViewModels
                 Categories = SelectedCategories.ToList(),
                 Ingredients = SelectedIngredients.ToList(),
                 Description = Description,
-                CookingDescription = CookingDescription
+                CookingDescription = CookingDescription,
+                Image = ImageBytes
             };
 
             DBWork.AddFood(recipe);
+        }
+
+        // Categories
+        [ObservableProperty] string nameCategory;
+        [ObservableProperty] string descriptionCategory;
+
+        // Ingredients
+        [ObservableProperty] string nameIngredient;
+        [ObservableProperty] string descriptionIngredient;
+        [ObservableProperty] string measureNameIngredient;
+
+        // Phys Activity
+        [ObservableProperty] string nameActivity;
+        [ObservableProperty] string descriptionActivity;
+        [ObservableProperty] string measureNameActivity;
+        [ObservableProperty] double measureToCaloriesActivity; // 100 действий сколько калорий
+
+        [RelayCommand]
+        private void SaveCategory()
+        {
+            var category = new Category
+            {
+                Name = NameCategory,
+                Description = DescriptionCategory
+            };
+            DBWork.pushNewCategory(category);
+        }
+
+        [RelayCommand]
+        private void SaveIngredient()
+        {
+            var ingredient = new Ingredient
+            {
+                Name = NameIngredient,
+                Description = DescriptionIngredient,
+                MeasureName = MeasureNameIngredient
+            };
+            DBWork.pushNewIngredient(ingredient);
+        }
+
+        [RelayCommand]
+        private void SaveActivity()
+        {
+            var activity = new MyActivity
+            {
+                Name = NameActivity,
+                Description = DescriptionActivity,
+                MeasureName = MeasureNameActivity,
+                MeasureToCalories = MeasureToCaloriesActivity
+            };
+            DBWork.pushNewActivity(activity);
         }
     }
 }

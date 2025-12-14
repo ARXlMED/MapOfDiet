@@ -71,7 +71,6 @@ namespace MapOfDiet.ViewModels
             }
         }
 
-
         [RelayCommand]
         private void AddCategory(Category category)
         {
@@ -150,8 +149,5 @@ namespace MapOfDiet.ViewModels
                 DislikeCategories.Add(cat);
             }
         }
-
-
-
     }
 }

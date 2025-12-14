@@ -19,5 +19,6 @@ namespace MapOfDiet.Models
         public List<Ingredient> Ingredients { get; set; }
         public string Description { get; set; } 
         public string CookingDescription { get; set; }
+        public byte[] Image { get; set; }
     }
 }

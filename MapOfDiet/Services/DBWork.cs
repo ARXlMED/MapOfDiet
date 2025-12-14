@@ -144,8 +144,8 @@ namespace MapOfDiet.Services
             conn.Open();
 
             using var cmd = new NpgsqlCommand(
-                "INSERT INTO foods (name, standard_mass, calories, proteins, fats, carbohydrates, description, cooking_description) " +
-                "VALUES (@name, @mass, @calories, @proteins, @fats, @carbohydrates, @desc, @cook_desc) RETURNING food_id", conn);
+                "INSERT INTO foods (name, standard_mass, calories, proteins, fats, carbohydrates, description, cooking_description, image) " +
+                "VALUES (@name, @mass, @calories, @proteins, @fats, @carbohydrates, @desc, @cook_desc, @image) RETURNING food_id", conn);
 
             cmd.Parameters.AddWithValue("name", recipe.Name);
             cmd.Parameters.AddWithValue("mass", recipe.Mass > 0 ? recipe.Mass : 100);
@@ -155,6 +155,7 @@ namespace MapOfDiet.Services
             cmd.Parameters.AddWithValue("carbohydrates", recipe.Carbohydrates);
             cmd.Parameters.AddWithValue("desc", recipe.Description ?? "");
             cmd.Parameters.AddWithValue("cook_desc", recipe.CookingDescription ?? "");
+            cmd.Parameters.AddWithValue("image", recipe.Image);
 
             var scalar = cmd.ExecuteScalar();
             if (scalar is null || scalar == DBNull.Value)
