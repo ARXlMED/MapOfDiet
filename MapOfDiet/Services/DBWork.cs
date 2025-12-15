@@ -539,6 +539,30 @@ namespace MapOfDiet.Services
             return null;
         }
 
+       
+
+
+
+
+        //// AddFoodRecord ----------------------------------------------------------------------------------
+
+        // Отправляет в бд новую запись о съеденной еде
+        public static bool PushFoodRecord(FoodRecord foodRecord)
+        {
+            using var conn = new NpgsqlConnection(connString);
+            conn.Open();
+            using var cmd = new NpgsqlCommand("INSERT INTO foods_history (user_id, food_id, mass, eaten_at) VALUES (@user_id, @food_id, @mass, @eaten_at)", conn);
+            cmd.Parameters.AddWithValue("user_id", UserSession.UserId);
+            cmd.Parameters.AddWithValue("food_id", foodRecord.Food.FoodId);
+            cmd.Parameters.AddWithValue("mass", foodRecord.Mass);
+            cmd.Parameters.AddWithValue("eaten_at", foodRecord.DateTime);
+
+            int rowsAffected = cmd.ExecuteNonQuery();
+
+            return rowsAffected > 0;
+        }
+
+        // Выдаёт список из 10 блюд с похожим названием с введенным
         public static List<Food> SearchFoodsByName(string name)
         {
             var list = new List<Food>();
@@ -578,28 +602,6 @@ namespace MapOfDiet.Services
         }
 
 
-
-
-        //// AddFoodRecord ----------------------------------------------------------------------------------
-
-        public static bool PushFoodRecord(FoodRecord foodRecord)
-        {
-            using var conn = new NpgsqlConnection(connString);
-            conn.Open();
-            using var cmd = new NpgsqlCommand("INSERT INTO foods_history (user_id, food_id, mass, eaten_at) VALUES (@user_id, @food_id, @mass, @eaten_at)", conn);
-            cmd.Parameters.AddWithValue("user_id", UserSession.UserId);
-            cmd.Parameters.AddWithValue("food_id", foodRecord.Food.FoodId);
-            cmd.Parameters.AddWithValue("mass", foodRecord.Mass);
-            cmd.Parameters.AddWithValue("eaten_at", foodRecord.DateTime);
-
-            int rowsAffected = cmd.ExecuteNonQuery();
-
-            return rowsAffected > 0;
-        }
-
-
-
-
         //// AddActivityRecord ----------------------------------------------------------------------------------
 
         public static bool PushActivityRecord(MyActivityRecord activityRecord)
@@ -611,9 +613,44 @@ namespace MapOfDiet.Services
             cmd.Parameters.AddWithValue("activity_id", activityRecord.Activity.ActivityId);
             cmd.Parameters.AddWithValue("value", activityRecord.Amount);
             cmd.Parameters.AddWithValue("time", activityRecord.DateTime);
-            return true;
+
+            int rowsAffected = cmd.ExecuteNonQuery();
+
+            return rowsAffected > 0;
         }
 
+        public static List<MyActivity> SearchActivitiesByName(string name)
+        {
+            var list = new List<MyActivity>();
+            using var conn = new NpgsqlConnection(connString);
+            conn.Open();
+
+            using var cmd = new NpgsqlCommand(
+                "SELECT activity_id, name, measure_name, measure_to_calories, description, image " +
+                "FROM activities " +
+                "WHERE name ILIKE @name " +
+                "ORDER BY name LIMIT 10", conn);
+
+            cmd.Parameters.AddWithValue("name", "%" + (name ?? string.Empty) + "%");
+
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                int activityId = reader.GetInt32(0);
+                list.Add(new MyActivity
+                {
+                    ActivityId = activityId,
+                    Name = reader.GetString(1),
+                    MeasureName = reader.IsDBNull(2) ? string.Empty : reader.GetString(2),
+                    MeasureToCalories = reader.IsDBNull(3) ? 0 : reader.GetDouble(3),
+                    Description = reader.IsDBNull(4) ? string.Empty : reader.GetString(4),
+                    Image = reader.IsDBNull(5) ? null : reader.GetFieldValue<byte[]>(5),
+                    EnteredAmount = 0
+                });
+            }
+
+            return list;
+        }
 
 
 

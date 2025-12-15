@@ -13,5 +13,7 @@ namespace MapOfDiet.Models
         public string Description { get; set; }
         public string MeasureName { get; set; }
         public double MeasureToCalories { get; set; }
+        public byte[] Image { get; set; }
+        public int EnteredAmount { get; set; }
     }
 }
