@@ -6,8 +6,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Images\app.ico</ApplicationIcon>
   </PropertyGroup>
-
   <ItemGroup>
     <None Remove="Images\Search.png" />
     <None Remove="Images\TabControl\Add food.png" />
