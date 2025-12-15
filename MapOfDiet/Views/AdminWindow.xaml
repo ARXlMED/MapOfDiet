@@ -8,7 +8,8 @@
 
     <Window.Resources>
         <conv:PositiveDoubleToBoolConverter x:Key="PositiveDoubleToBoolConverter"/>
-        
+        <conv:ByteArrayToImageConverter x:Key="ByteArrayToImageConverter"/>
+
         <Style TargetType="TextBlock">
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontFamily" Value="Segoe UI"/>
@@ -109,48 +110,48 @@
                                HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" Foreground="White"/>
 
                         <TextBlock Text="Название" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30"/>
-                        <TextBox Text="{Binding Name}" Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Center" FontSize="20" Margin="15, 15, 15, 15"/>
+                        <TextBox Text="{Binding NameFood}" Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Center" FontSize="20" Margin="15, 15, 15, 15"/>
 
                         <TextBlock Text="Калорийность (на 100г.)" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" FontSize="30" TextWrapping="Wrap"/>
-                        <TextBox Text="{Binding Calories}" Grid.Row="2" Grid.Column="1" VerticalContentAlignment="Center" FontSize="20" Margin="15, 15, 15, 15"/>
+                        <TextBox Text="{Binding CaloriesFood}" Grid.Row="2" Grid.Column="1" VerticalContentAlignment="Center" FontSize="20" Margin="15, 15, 15, 15"/>
 
                         <TextBlock Text="Белки (на 100г.)" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30"/>
-                        <TextBox Text="{Binding Proteins}" Grid.Row="3" Grid.Column="1" VerticalContentAlignment="Center" FontSize="20" Margin="15, 15, 15, 15"/>
+                        <TextBox Text="{Binding ProteinsFood}" Grid.Row="3" Grid.Column="1" VerticalContentAlignment="Center" FontSize="20" Margin="15, 15, 15, 15"/>
 
                         <TextBlock Text="Жиры (на 100г.)" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30"/>
-                        <TextBox Text="{Binding Fats}" Grid.Row="4" Grid.Column="1" VerticalContentAlignment="Center" FontSize="20" Margin="15, 15, 15, 15"/>
+                        <TextBox Text="{Binding FatsFood}" Grid.Row="4" Grid.Column="1" VerticalContentAlignment="Center" FontSize="20" Margin="15, 15, 15, 15"/>
 
                         <TextBlock Text="Углеводы (на 100г.)" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" TextWrapping="Wrap" TextAlignment="Center"/>
-                        <TextBox Text="{Binding Carbohydrates}" Grid.Row="5" Grid.Column="1" VerticalContentAlignment="Center" FontSize="20" Margin="15, 15, 15, 15"/>
+                        <TextBox Text="{Binding CarbohydratesFood}" Grid.Row="5" Grid.Column="1" VerticalContentAlignment="Center" FontSize="20" Margin="15, 15, 15, 15"/>
 
                         <TextBlock Text="Категории" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30"/>
                         <StackPanel Grid.Row="6" Grid.Column="1" Margin="15, 15, 15, 15">
                             <TextBlock Text="Поиск категорий:" FontSize="20"/>
                             <StackPanel Orientation="Horizontal">
-                                <TextBox Text="{Binding SearchCategory}" Width="350" FontSize="20"/>
-                                <Button Content="Поиск" Command="{Binding SearchCategoriesCommand}" Width="120"/>
+                                <TextBox Text="{Binding SearchFoodCategory}" Width="350" FontSize="20"/>
+                                <Button Content="Поиск" Command="{Binding SearchFoodCategoriesCommand}" Width="120"/>
                             </StackPanel>
                             <TextBlock Text="Найденные результаты:" FontSize="20"/>
-                            <ListBox ItemsSource="{Binding SearchResultsCategories}" Height="Auto">
+                            <ListBox ItemsSource="{Binding SearchResultsFoodCategories}" Height="Auto">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="{Binding Name}" Width="200"/>
                                             <Button Content="Добавить"
-                                            Command="{Binding DataContext.AddCategoryCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" CommandParameter="{Binding}"/>
+                                            Command="{Binding DataContext.AddFoodCategoryCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" CommandParameter="{Binding}"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
 
                             <TextBlock Text="Выбранные категории:" FontSize="20"/>
-                            <ListBox ItemsSource="{Binding SelectedCategories}" Height="Auto">
+                            <ListBox ItemsSource="{Binding SelectedFoodCategories}" Height="Auto">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock Text="{Binding Name}" Width="200"/>
                                             <Button Content="Удалить"
-                                            Command="{Binding DataContext.RemoveCategoryCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                            Command="{Binding DataContext.RemoveFoodCategoryCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
                                             CommandParameter="{Binding}"/>
                                         </StackPanel>
                                     </DataTemplate>
@@ -162,15 +163,15 @@
                         <StackPanel Grid.Row="7" Grid.Column="1" Margin="15, 15, 15, 15">
                             <TextBlock Text="Поиск ингридиентов:" FontSize="20"/>
                             <StackPanel Orientation="Horizontal" Cursor="">
-                                <TextBox Text="{Binding SearchIngredient}" Width="350" FontSize="20"/>
-                                <Button Content="Поиск" Command="{Binding SearchIngredientsCommand}" Width="120"/>
+                                <TextBox Text="{Binding SearchFoodIngredient}" Width="350" FontSize="20"/>
+                                <Button Content="Поиск" Command="{Binding SearchFoodIngredientsCommand}" Width="120"/>
                             </StackPanel>
                             
                             <TextBlock Text="Масса (количество) ингридиента" FontSize="20" TextWrapping="Wrap" TextAlignment="Left"/>
-                            <TextBox Text="{Binding MassIngredient}"/>
+                            <TextBox Text="{Binding MassFoodIngredient}"/>
                             
                             <TextBlock Text="Найденные результаты:" FontSize="20"/>
-                            <ListBox ItemsSource="{Binding SearchResultsIngredients}" Height="Auto">
+                            <ListBox ItemsSource="{Binding SearchResultsFoodIngredients}" Height="Auto">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
@@ -183,16 +184,16 @@
                                                 </TextBlock.Text>
                                             </TextBlock>
                                             <Button Content="Добавить"
-                                            Command="{Binding DataContext.AddIngredientCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                            Command="{Binding DataContext.AddFoodIngredientCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
                                             CommandParameter="{Binding}"
-                                            IsEnabled="{Binding DataContext.MassIngredient, RelativeSource={RelativeSource AncestorType=ListBox}, Converter={StaticResource PositiveDoubleToBoolConverter}}"/>
+                                            IsEnabled="{Binding DataContext.MassFoodIngredient, RelativeSource={RelativeSource AncestorType=ListBox}, Converter={StaticResource PositiveDoubleToBoolConverter}}"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
 
                             <TextBlock Text="Выбранные ингредиенты:" FontSize="20" TextWrapping="Wrap" TextAlignment="Left"/>
-                            <ListBox ItemsSource="{Binding SelectedIngredients}" Height="Auto">
+                            <ListBox ItemsSource="{Binding SelectedFoodIngredients}" Height="Auto">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
@@ -205,7 +206,7 @@
                                                     </MultiBinding>
                                                 </TextBlock.Text>
                                             </TextBlock>
-                                            <Button Content="Удалить" Command="{Binding DataContext.RemoveIngredientCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" CommandParameter="{Binding}"/>
+                                            <Button Content="Удалить" Command="{Binding DataContext.RemoveFoodIngredientCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" CommandParameter="{Binding}"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
@@ -213,18 +214,18 @@
                         </StackPanel>
 
                         <TextBlock Text="Описание" Grid.Row="8" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
-                        <TextBox Text="{Binding Description}" Grid.Row="8" Grid.Column="1" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" FontSize="20"/>
+                        <TextBox Text="{Binding DescriptionFood}" Grid.Row="8" Grid.Column="1" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" FontSize="20"/>
 
                         <TextBlock Text="Описание процесса приготовления" Grid.Row="9" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" FontSize="30"/>
-                        <TextBox Text="{Binding CookingDescription}" Grid.Row="9" Grid.Column="1" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" FontSize="20"/>
+                        <TextBox Text="{Binding CookingDescriptionFood}" Grid.Row="9" Grid.Column="1" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" FontSize="20"/>
 
                         <TextBlock Text="Добавить фото" Grid.Row="10" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" FontSize="30"/>
                         <StackPanel Orientation="Horizontal" Grid.Row="10" Grid.Column="1">
-                            <Button Content="Добавить/изменить изображение" Command="{Binding AddImageCommand}" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <Image Source="{Binding ImageBitmap}"/>
+                            <Button Content="Добавить/изменить изображение" Command="{Binding AddImageFoodCommand}" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Image Source="{Binding ImageFood, Converter={StaticResource ByteArrayToImageConverter}}"/>
                         </StackPanel>
                         
-                        <Button Content="Сохранить рецепт" Command="{Binding SaveRecipeCommand}" Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
+                        <Button Content="Сохранить рецепт" Command="{Binding SaveFoodCommand}" Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
                     </Grid>
                 </ScrollViewer>
             </TabItem>
@@ -240,12 +241,15 @@
                             <RowDefinition Height="100*"/>
                             <RowDefinition Height="400*"/>
                             <RowDefinition Height="80*"/>
+                            <RowDefinition Height="80*"/>
                         </Grid.RowDefinitions>
 
                         <Border Grid.Row="1" Grid.Column="0"/>
                         <Border Grid.Row="1" Grid.Column="1"/>
                         <Border Grid.Row="2" Grid.Column="0"/>
                         <Border Grid.Row="2" Grid.Column="1"/>
+                        <Border Grid.Row="3" Grid.Column="0"/>
+                        <Border Grid.Row="3" Grid.Column="1"/>
 
                         <TextBlock Text="Добавить категорию" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40"/>
 
@@ -255,7 +259,13 @@
                         <TextBlock Text="Описание" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
                         <TextBox Text="{Binding DescriptionCategory}" Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" FontSize="20" Margin="15, 15, 15, 15"/>
 
-                        <Button Content="Сохранить категорию" Command="{Binding SaveCategoryCommand}" Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
+                        <TextBlock Text="Добавить фото" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" FontSize="30"/>
+                        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1">
+                            <Button Content="Добавить/изменить изображение" Command="{Binding AddImageCategoryCommand}" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Image Source="{Binding ImageCategory, Converter={StaticResource ByteArrayToImageConverter}}"/>
+                        </StackPanel>
+
+                        <Button Content="Сохранить категорию" Command="{Binding SaveCategoryCommand}" Grid.Row="4" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
                     </Grid>
                 </ScrollViewer>
             </TabItem>
@@ -271,6 +281,7 @@
                             <RowDefinition Height="100*"/>
                             <RowDefinition Height="300*"/>
                             <RowDefinition Height="100*"/>
+                            <RowDefinition Height="100*"/>
                             <RowDefinition Height="80*"/>
                         </Grid.RowDefinitions>
 
@@ -280,6 +291,8 @@
                         <Border Grid.Row="2" Grid.Column="1"/>
                         <Border Grid.Row="3" Grid.Column="0"/>
                         <Border Grid.Row="3" Grid.Column="1"/>
+                        <Border Grid.Row="4" Grid.Column="0"/>
+                        <Border Grid.Row="4" Grid.Column="1"/>
 
                         <TextBlock Text="Добавить ингредиент" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40"/>
 
@@ -292,7 +305,13 @@
                         <TextBlock Text="Название единицы измерения" TextWrapping="Wrap" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" TextAlignment="Center"/>
                         <TextBox Text="{Binding MeasureNameIngredient}" Grid.Row="3" Grid.Column="1" FontSize="20" Margin="15, 15, 15, 15"/>
 
-                        <Button Content="Сохранить ингредиент" Command="{Binding SaveIngredientCommand}" Grid.Row="4" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
+                        <TextBlock Text="Добавить фото" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" FontSize="30"/>
+                        <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1">
+                            <Button Content="Добавить/изменить изображение" Command="{Binding AddImageIngredientCommand}" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Image Source="{Binding ImageIngredient, Converter={StaticResource ByteArrayToImageConverter}}"/>
+                        </StackPanel>
+
+                        <Button Content="Сохранить ингредиент" Command="{Binding SaveIngredientCommand}" Grid.Row="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
                     </Grid>
                 </ScrollViewer>
             </TabItem>
@@ -306,10 +325,11 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="60*"/>
                             <RowDefinition Height="100*"/>
-                            <RowDefinition Height="200"/>
-                            <RowDefinition Height="100"/>
-                            <RowDefinition Height="100"/>
-                            <RowDefinition Height="80"/>
+                            <RowDefinition Height="200*"/>
+                            <RowDefinition Height="100*"/>
+                            <RowDefinition Height="100*"/>
+                            <RowDefinition Height="100*"/>
+                            <RowDefinition Height="80*"/>
                         </Grid.RowDefinitions>
 
                         <Border Grid.Row="1" Grid.Column="0"/>
@@ -320,6 +340,8 @@
                         <Border Grid.Row="3" Grid.Column="1"/>
                         <Border Grid.Row="4" Grid.Column="0"/>
                         <Border Grid.Row="4" Grid.Column="1"/>
+                        <Border Grid.Row="5" Grid.Column="0"/>
+                        <Border Grid.Row="5" Grid.Column="1"/>
 
                         <TextBlock Text="Добавить физическую активность" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40"/>
 
@@ -335,7 +357,13 @@
                         <TextBlock Text="Сколько калорий тратится при совершении 100 ед. измерения" TextWrapping="Wrap" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" FontSize="22"/>
                         <TextBox Text="{Binding MeasureToCaloriesActivity}" Grid.Row="4" Grid.Column="1" VerticalContentAlignment="Center" FontSize="20" Cursor="" Margin="15, 15, 15, 15"/>
 
-                        <Button Content="Сохранить физическую активность" Command="{Binding SaveActivityCommand}" Grid.Row="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"
+                        <TextBlock Text="Добавить фото" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" FontSize="30"/>
+                        <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="1">
+                            <Button Content="Добавить/изменить изображение" Command="{Binding AddImageActivityCommand}" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Image Source="{Binding ImageActivity, Converter={StaticResource ByteArrayToImageConverter}}"/>
+                        </StackPanel>
+
+                        <Button Content="Сохранить физическую активность" Command="{Binding SaveActivityCommand}" Grid.Row="6" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"
                                 IsEnabled="{Binding MeasureToCaloriesActivity, Converter={StaticResource PositiveDoubleToBoolConverter}}"/>
                     </Grid>
                 </ScrollViewer>

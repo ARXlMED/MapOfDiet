@@ -248,9 +248,10 @@ namespace MapOfDiet.Services
         {
             using var conn = new NpgsqlConnection(connString);
             conn.Open();
-            using var cmd = new NpgsqlCommand("INSERT INTO categories (name, description) VALUES (@name, @description) ON CONFLICT (name) DO NOTHING RETURNING name", conn);
+            using var cmd = new NpgsqlCommand("INSERT INTO categories (name, description, image) VALUES (@name, @description, @image) ON CONFLICT (name) DO NOTHING RETURNING name", conn);
             cmd.Parameters.AddWithValue("name", category.Name);
             cmd.Parameters.AddWithValue("description", category.Description);
+            cmd.Parameters.Add("image", NpgsqlTypes.NpgsqlDbType.Bytea).Value = category.Image ?? (object)DBNull.Value;
             var result = cmd.ExecuteScalar();
             return result != null;
         }
@@ -260,10 +261,11 @@ namespace MapOfDiet.Services
         {
             using var conn = new NpgsqlConnection(connString);
             conn.Open();
-            using var cmd = new NpgsqlCommand("INSERT INTO ingredients (name, description, measure_name) VALUES (@name, @description, @measName) ON CONFLICT (name) DO NOTHING RETURNING name", conn);
+            using var cmd = new NpgsqlCommand("INSERT INTO ingredients (name, description, measure_name, image) VALUES (@name, @description, @measName, @image) ON CONFLICT (name) DO NOTHING RETURNING name", conn);
             cmd.Parameters.AddWithValue("name", ingredient.Name);
             cmd.Parameters.AddWithValue("description", ingredient.Description);
             cmd.Parameters.AddWithValue("measName", ingredient.MeasureName);
+            cmd.Parameters.Add("image", NpgsqlTypes.NpgsqlDbType.Bytea).Value = ingredient.Image ?? (object)DBNull.Value;
             var result = cmd.ExecuteScalar();
             return result != null;
         }
@@ -273,11 +275,12 @@ namespace MapOfDiet.Services
         {
             using var conn = new NpgsqlConnection(connString);
             conn.Open();
-            using var cmd = new NpgsqlCommand("INSERT INTO activities (name, description, measure_name, measure_to_calories) VALUES (@name, @description, @measName, @measCal) ON CONFLICT (name) DO NOTHING RETURNING name", conn);
+            using var cmd = new NpgsqlCommand("INSERT INTO activities (name, description, measure_name, measure_to_calories, image) VALUES (@name, @description, @measName, @measCal, @image) ON CONFLICT (name) DO NOTHING RETURNING name", conn);
             cmd.Parameters.AddWithValue("name", activity.Name);
             cmd.Parameters.AddWithValue("description", activity.Description);
             cmd.Parameters.AddWithValue("measName", activity.MeasureName);
             cmd.Parameters.AddWithValue("measCal", activity.MeasureToCalories);
+            cmd.Parameters.Add("image", NpgsqlTypes.NpgsqlDbType.Bytea).Value = activity.Image ?? (object)DBNull.Value;
             var result = cmd.ExecuteScalar();
             return result != null;
         }

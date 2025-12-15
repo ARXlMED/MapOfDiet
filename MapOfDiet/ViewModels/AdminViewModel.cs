@@ -19,76 +19,75 @@ namespace MapOfDiet.ViewModels
     public partial class AdminViewModel : ObservableObject
     {
         // ADD RECIPE
-        [ObservableProperty] private string name = string.Empty;
-        [ObservableProperty] private int calories;
-        [ObservableProperty] private double proteins;
-        [ObservableProperty] private double fats;
-        [ObservableProperty] private double carbohydrates;
-        [ObservableProperty] private string description;
-        [ObservableProperty] private string cookingDescription;
+        [ObservableProperty] private string nameFood = string.Empty;
+        [ObservableProperty] private int caloriesFood;
+        [ObservableProperty] private double proteinsFood;
+        [ObservableProperty] private double fatsFood;
+        [ObservableProperty] private double carbohydratesFood;
+        [ObservableProperty] private string descriptionFood;
+        [ObservableProperty] private string cookingDescriptionFood;
 
-        [ObservableProperty] private string searchIngredient = string.Empty;
-        [ObservableProperty] private string searchCategory = string.Empty;
+        [ObservableProperty] private string searchFoodIngredient = string.Empty;
+        [ObservableProperty] private string searchFoodCategory = string.Empty;
 
-        [ObservableProperty] private double massIngredient;
+        [ObservableProperty] private double massFoodIngredient;
 
-        [ObservableProperty] private byte[] imageBytes;
-        [ObservableProperty] private BitmapImage imageBitmap;
-        public ObservableCollection<Category> SearchResultsCategories { get; } = new();
-        public ObservableCollection<Ingredient> SearchResultsIngredients { get; } = new();
+        [ObservableProperty] private byte[] imageFood;
+        public ObservableCollection<Category> SearchResultsFoodCategories { get; } = new();
+        public ObservableCollection<Ingredient> SearchResultsFoodIngredients { get; } = new();
 
-        public ObservableCollection<Category> SelectedCategories { get; } = new();
-        public ObservableCollection<Ingredient> SelectedIngredients { get; } = new();
+        public ObservableCollection<Category> SelectedFoodCategories { get; } = new();
+        public ObservableCollection<Ingredient> SelectedFoodIngredients { get; } = new();
 
         [RelayCommand]
-        private void SearchIngredients()
+        private void SearchFoodIngredients()
         {
-            SearchResultsIngredients.Clear();
-            foreach (var ingr in DBWork.SearchIngredientsByName(SearchIngredient))
-                SearchResultsIngredients.Add(ingr);
+            SearchResultsFoodIngredients.Clear();
+            foreach (var ingr in DBWork.SearchIngredientsByName(SearchFoodIngredient))
+                SearchResultsFoodIngredients.Add(ingr);
         }
 
         [RelayCommand]
-        private void SearchCategories()
+        private void SearchFoodCategories()
         {
-            SearchResultsCategories.Clear();
-            foreach (var cat in DBWork.SearchCategoriesByName(SearchCategory))
-                SearchResultsCategories.Add(cat);
+            SearchResultsFoodCategories.Clear();
+            foreach (var cat in DBWork.SearchCategoriesByName(SearchFoodCategory))
+                SearchResultsFoodCategories.Add(cat);
         }
 
         [RelayCommand]
-        private void AddIngredient(Ingredient ingr)
+        private void AddFoodIngredient(Ingredient ingr)
         {
-            if (MassIngredient > 0 && !SelectedIngredients.Any(i => i.IngrId == ingr.IngrId))
+            if (MassFoodIngredient > 0 && !SelectedFoodIngredients.Any(i => i.IngrId == ingr.IngrId))
             {
-                ingr.Mass = MassIngredient;
-                SelectedIngredients.Add(ingr);
+                ingr.Mass = MassFoodIngredient;
+                SelectedFoodIngredients.Add(ingr);
             }
         }
 
         [RelayCommand]
-        private void RemoveIngredient(Ingredient ingr)
+        private void RemoveFoodIngredient(Ingredient ingr)
         {
-            if (SelectedIngredients.Contains(ingr))
-                SelectedIngredients.Remove(ingr);
+            if (SelectedFoodIngredients.Contains(ingr))
+                SelectedFoodIngredients.Remove(ingr);
         }
 
         [RelayCommand]
-        private void AddCategory(Category cat)
+        private void AddFoodCategory(Category cat)
         {
-            if (!SelectedCategories.Any(c => c.CategoryId == cat.CategoryId))
-                SelectedCategories.Add(cat);
+            if (!SelectedFoodCategories.Any(c => c.CategoryId == cat.CategoryId))
+                SelectedFoodCategories.Add(cat);
         }
 
         [RelayCommand]
-        private void RemoveCategory(Category cat)
+        private void RemoveFoodCategory(Category cat)
         {
-            if (SelectedCategories.Contains(cat))
-                SelectedCategories.Remove(cat);
+            if (SelectedFoodCategories.Contains(cat))
+                SelectedFoodCategories.Remove(cat);
         }
 
         [RelayCommand]
-        private void AddImage()
+        private void AddImageFood()
         {
             var dlg = new Microsoft.Win32.OpenFileDialog
             {
@@ -97,35 +96,25 @@ namespace MapOfDiet.ViewModels
 
             if (dlg.ShowDialog() == true)
             {
-                ImageBytes = File.ReadAllBytes(dlg.FileName);
-
-                using var ms = new MemoryStream(ImageBytes);
-                var bmp = new BitmapImage();
-                bmp.BeginInit();
-                bmp.CacheOption = BitmapCacheOption.OnLoad;
-                bmp.StreamSource = ms;
-                bmp.EndInit();
-                bmp.Freeze();
-
-                ImageBitmap = bmp;
+                ImageFood = File.ReadAllBytes(dlg.FileName);
             }
         }
 
         [RelayCommand]
-        private void SaveRecipe()
+        private void SaveFood()
         {
             var recipe = new Food
             {
-                Name = Name,
-                Calories = Calories,
-                Proteins = Proteins,
-                Fats = Fats,
-                Carbohydrates = Carbohydrates,
-                Categories = SelectedCategories.ToList(),
-                Ingredients = SelectedIngredients.ToList(),
-                Description = Description,
-                CookingDescription = CookingDescription,
-                Image = ImageBytes
+                Name = NameFood,
+                Calories = CaloriesFood,
+                Proteins = ProteinsFood,
+                Fats = FatsFood,
+                Carbohydrates = CarbohydratesFood,
+                Categories = SelectedFoodCategories.ToList(),
+                Ingredients = SelectedFoodIngredients.ToList(),
+                Description = DescriptionFood,
+                CookingDescription = CookingDescriptionFood,
+                Image = ImageFood
             };
 
             DBWork.AddFood(recipe);
@@ -134,17 +123,21 @@ namespace MapOfDiet.ViewModels
         // Categories
         [ObservableProperty] string nameCategory;
         [ObservableProperty] string descriptionCategory;
+        [ObservableProperty] byte[] imageCategory;
 
         // Ingredients
         [ObservableProperty] string nameIngredient;
         [ObservableProperty] string descriptionIngredient;
         [ObservableProperty] string measureNameIngredient;
+        [ObservableProperty] byte[] imageIngredient;
 
         // Phys Activity
         [ObservableProperty] string nameActivity;
         [ObservableProperty] string descriptionActivity;
         [ObservableProperty] string measureNameActivity;
         [ObservableProperty] double measureToCaloriesActivity; // 100 действий сколько калорий
+        [ObservableProperty] byte[] imageActivity;
+
 
         [RelayCommand]
         private void SaveCategory()
@@ -152,7 +145,8 @@ namespace MapOfDiet.ViewModels
             var category = new Category
             {
                 Name = NameCategory,
-                Description = DescriptionCategory
+                Description = DescriptionCategory,
+                Image = ImageCategory
             };
             DBWork.pushNewCategory(category);
         }
@@ -164,7 +158,8 @@ namespace MapOfDiet.ViewModels
             {
                 Name = NameIngredient,
                 Description = DescriptionIngredient,
-                MeasureName = MeasureNameIngredient
+                MeasureName = MeasureNameIngredient,
+                Image = ImageIngredient
             };
             DBWork.pushNewIngredient(ingredient);
         }
@@ -177,9 +172,52 @@ namespace MapOfDiet.ViewModels
                 Name = NameActivity,
                 Description = DescriptionActivity,
                 MeasureName = MeasureNameActivity,
-                MeasureToCalories = MeasureToCaloriesActivity
+                MeasureToCalories = MeasureToCaloriesActivity,
+                Image = ImageActivity
             };
             DBWork.pushNewActivity(activity);
+        }
+
+        [RelayCommand]
+        private void AddImageCategory()
+        {
+            var dlg = new Microsoft.Win32.OpenFileDialog
+            {
+                Filter = "Image files (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg"
+            };
+
+            if (dlg.ShowDialog() == true)
+            {
+                ImageCategory = File.ReadAllBytes(dlg.FileName);
+            }
+        }
+
+        [RelayCommand]
+        private void AddImageIngredient()
+        {
+            var dlg = new Microsoft.Win32.OpenFileDialog
+            {
+                Filter = "Image files (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg"
+            };
+
+            if (dlg.ShowDialog() == true)
+            {
+                ImageIngredient = File.ReadAllBytes(dlg.FileName);
+            }
+        }
+
+        [RelayCommand]
+        private void AddImageActivity()
+        {
+            var dlg = new Microsoft.Win32.OpenFileDialog
+            {
+                Filter = "Image files (*.png;*.jpg;*.jpeg)|*.png;*.jpg;*.jpeg"
+            };
+
+            if (dlg.ShowDialog() == true)
+            {
+                ImageActivity = File.ReadAllBytes(dlg.FileName);
+            }
         }
     }
 }
