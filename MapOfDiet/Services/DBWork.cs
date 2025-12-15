@@ -514,7 +514,7 @@ namespace MapOfDiet.Services
         {
             using var conn = new NpgsqlConnection(connString);
             conn.Open();
-            using var cmd = new NpgsqlCommand("SELECT name, calories, proteins, fats, carbohydrates, description, cooking_description FROM foods WHERE food_id = @FoodId", conn);
+            using var cmd = new NpgsqlCommand("SELECT name, calories, proteins, fats, carbohydrates, description, cooking_description, image FROM foods WHERE food_id = @FoodId", conn);
             cmd.Parameters.AddWithValue("FoodId", foodId);
             using var reader = cmd.ExecuteReader();
             if (reader.Read())
@@ -527,7 +527,8 @@ namespace MapOfDiet.Services
                     Fats = reader.GetDouble(3),
                     Carbohydrates = reader.GetDouble(4),
                     Description = reader.GetString(5),
-                    CookingDescription = reader.GetString(6)
+                    CookingDescription = reader.GetString(6),
+                    Image = reader.IsDBNull(7) ? null : reader.GetFieldValue<byte[]>(7)
                 };
                 reader.Close();
 
@@ -545,7 +546,7 @@ namespace MapOfDiet.Services
             conn.Open();
 
             using var cmd = new NpgsqlCommand(
-                "SELECT food_id, name, description, calories, proteins, fats, carbohydrates, cooking_description " +
+                "SELECT food_id, name, description, calories, proteins, fats, carbohydrates, cooking_description, image " +
                 "FROM foods " +
                 "WHERE name ILIKE @name " +
                 "ORDER BY name LIMIT 10", conn);
@@ -565,10 +566,11 @@ namespace MapOfDiet.Services
                     Proteins = reader.IsDBNull(4) ? 0 : reader.GetDouble(4),
                     Fats = reader.IsDBNull(5) ? 0 : reader.GetDouble(5),
                     Carbohydrates = reader.IsDBNull(6) ? 0 : reader.GetDouble(6),
-                    Mass = 100, 
+                    Mass = 100,
                     CookingDescription = reader.GetString(7),
-                    Categories = GetAllCategoriesByFoodId(FoodId), 
-                    Ingredients = GetAllIngredientByFoodId(FoodId) 
+                    Categories = GetAllCategoriesByFoodId(FoodId),
+                    Ingredients = GetAllIngredientByFoodId(FoodId),
+                    Image = reader.IsDBNull(8) ? null : reader.GetFieldValue<byte[]>(8)
                 });
             }
 
@@ -589,7 +591,10 @@ namespace MapOfDiet.Services
             cmd.Parameters.AddWithValue("food_id", foodRecord.Food.FoodId);
             cmd.Parameters.AddWithValue("mass", foodRecord.Mass);
             cmd.Parameters.AddWithValue("eaten_at", foodRecord.DateTime);
-            return true;
+
+            int rowsAffected = cmd.ExecuteNonQuery();
+
+            return rowsAffected > 0;
         }
 
 

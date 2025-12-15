@@ -34,7 +34,7 @@ namespace MapOfDiet.ViewModels
         [RelayCommand]
         private void ShowRecipe()
         {
-            
+
         }
     }
 }

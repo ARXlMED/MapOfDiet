@@ -20,5 +20,6 @@ namespace MapOfDiet.Models
         public string Description { get; set; } 
         public string CookingDescription { get; set; }
         public byte[] Image { get; set; }
+        public double EnteredMass { get; set; }
     }
 }
