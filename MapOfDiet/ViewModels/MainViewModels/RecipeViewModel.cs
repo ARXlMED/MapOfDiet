@@ -32,9 +32,12 @@ namespace MapOfDiet.ViewModels
         }
 
         [RelayCommand]
-        private void ShowRecipe()
+        private void ShowRecipe(Food food)
         {
-
+            if (food == null) return;
+            Recipe = food;   
+            IsLoaded = true; 
         }
+
     }
 }

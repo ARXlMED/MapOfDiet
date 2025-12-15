@@ -5,34 +5,95 @@
 
     <UserControl.Resources>
         <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <conv:ByteArrayToImageConverter x:Key="ByteArrayToImageConverter"/>
     </UserControl.Resources>
-    
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <Grid Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="100*"/>
-            </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="0" Grid.Column="0" Margin="15, 15, 15, 15">
-                <TextBlock Text="Поиск рецептов:" FontSize="30"/>
-                <StackPanel Orientation="Horizontal">
-                    <TextBox Text="{Binding SearchNameRecipe}" Width="350" FontSize="20"/>
-                    <Button Content="Поиск" Command="{Binding SearchRecipeCommand}" Width="120"/>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="15">
+
+            <!-- Поиск -->
+            <TextBlock Text="Поиск рецептов:" FontSize="30"/>
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,20">
+                <TextBox Style="{StaticResource SearchTextBoxStyle}" 
+                         Text="{Binding SearchNameRecipe}" 
+                         Width="350" FontSize="20"/>
+                <Button Content="Поиск" 
+                        Command="{Binding SearchRecipeCommand}" 
+                        Width="120" Margin="10,0,0,0"/>
+            </StackPanel>
+
+            <!-- Список результатов -->
+            <ListBox ItemsSource="{Binding SearchResultsRecipe}" Height="200">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <TextBlock Text="{Binding Name}" Width="200" FontSize="18"/>
+                            <Button Content="Показать" 
+                                    Command="{Binding DataContext.ShowRecipeCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" 
+                                    CommandParameter="{Binding}" 
+                                    Margin="10,0,0,0"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <!-- Детали рецепта -->
+            <Grid Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVisibilityConverter}}" Margin="0,20,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Основная информация -->
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
+                    <Image Width="150" Height="150" Stretch="UniformToFill" Margin="0,0,20,0"
+                           Source="{Binding Recipe.Image, Converter={StaticResource ByteArrayToImageConverter}}"/>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Recipe.Name}" FontSize="24" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding Recipe.Description}" FontSize="16" TextWrapping="Wrap"/>
+                        <TextBlock Text="{Binding Recipe.Calories, StringFormat=Калории: {0}}" FontSize="16"/>
+                        <TextBlock Text="{Binding Recipe.Proteins, StringFormat=Белки: {0}}" FontSize="16"/>
+                        <TextBlock Text="{Binding Recipe.Fats, StringFormat=Жиры: {0}}" FontSize="16"/>
+                        <TextBlock Text="{Binding Recipe.Carbohydrates, StringFormat=Углеводы: {0}}" FontSize="16"/>
+                    </StackPanel>
                 </StackPanel>
-                <ListBox ItemsSource="{Binding SearchResultsRecipe}" Height="Auto">
-                    <ListBox.ItemTemplate>
+
+                <!-- Категории -->
+                <TextBlock Text="Категории:" FontSize="20" Grid.Row="1"/>
+                <ItemsControl Grid.Row="1" ItemsSource="{Binding Recipe.Categories}" Margin="0,30,0,0">
+                    <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Name}" Width="200"/>
-                                <Button Content="Показать" Command="{Binding DataContext.ShowRecipeCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" CommandParameter="{Binding}"/>
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <Image Width="50" Height="50" Stretch="UniformToFill" Margin="5"
+                                       Source="{Binding Image, Converter={StaticResource ByteArrayToImageConverter}}"/>
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" FontSize="16" Margin="10,0,0,0" Style="{StaticResource {x:Type TextBlock}}" Foreground="White"/>
                             </StackPanel>
                         </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </StackPanel>
-        </Grid>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!-- Ингредиенты -->
+                <TextBlock Text="Ингредиенты:" FontSize="20"  Grid.Row="2" Margin="0,20,0,0"/>
+                <ItemsControl Grid.Row="2" ItemsSource="{Binding Recipe.Ingredients}" Margin="0,50,0,0">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <Image Width="50" Height="50" Stretch="UniformToFill" Margin="5"
+                                       Source="{Binding Image, Converter={StaticResource ByteArrayToImageConverter}}"/>
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" FontSize="16" Margin="10,0,0,0" Style="{StaticResource {x:Type TextBlock}}" Foreground="White"/>
+                                <TextBlock Text="{Binding Mass}" VerticalAlignment="Center" FontSize="16" Margin="10,0,0,0" Style="{StaticResource {x:Type TextBlock}}" Foreground="White"/>
+                                <TextBlock Text="{Binding MeasureName}" VerticalAlignment="Center" FontSize="16" Margin="10,0,0,0" Style="{StaticResource {x:Type TextBlock}}" Foreground="White"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <!-- Описание приготовления -->
+                <TextBlock Text="Приготовление:" FontSize="20" Grid.Row="3" Margin="0,20,0,0"/>
+                <TextBlock Text="{Binding Recipe.CookingDescription}" FontSize="16" TextWrapping="Wrap" Grid.Row="3" Margin="0,50,0,0"/>
+            </Grid>
+        </StackPanel>
     </ScrollViewer>
 </UserControl>
