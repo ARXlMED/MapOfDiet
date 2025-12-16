@@ -1,12 +1,27 @@
 ﻿<UserControl x:Class="MapOfDiet.Views.GetPlan"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:MapOfDiet.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:MapOfDiet.ViewModels"
+             mc:Ignorable="d">
+
+    <UserControl.DataContext>
+        <vm:GetPlanViewModel/>
+    </UserControl.DataContext>
+
+    <Grid Margin="20">
+        <StackPanel>
+            <Button Content="Загрузить план"
+                    Command="{Binding LoadPlanCommand}"/>
+
+            <TextBlock Text="{Binding Calories, StringFormat=Калории: {0:F0}}" FontSize="18"/>
+            <TextBlock Text="{Binding Proteins, StringFormat=Белки: {0:F0} г}" FontSize="18"/>
+            <TextBlock Text="{Binding Fats, StringFormat=Жиры: {0:F0} г}" FontSize="18"/>
+            <TextBlock Text="{Binding Carbohydrates, StringFormat=Углеводы: {0:F0} г}" FontSize="18"/>
+            <TextBlock Text="{Binding Bmi, StringFormat=BMI: {0:F1}}" FontSize="18"/>
+            <TextBlock Text="{Binding RecommendedWeightRange, StringFormat=Рекомендованный вес: {0}}" FontSize="18"/>
+            <TextBlock Text="{Binding Warning}" Foreground="Red" FontSize="16" TextWrapping="Wrap"/>
+        </StackPanel>
     </Grid>
 </UserControl>

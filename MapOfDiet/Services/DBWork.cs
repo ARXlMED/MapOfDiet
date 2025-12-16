@@ -393,8 +393,8 @@ namespace MapOfDiet.Services
                 var latest = await GetLatestWeightAsync(userId);
                 if (latest != null)
                 {
-                    userProfile.NowWeight = latest.Value.Current;
-                    userProfile.TargetWeight = latest.Value.Target;
+                    userProfile.NowWeight = latest.Weight;
+                    userProfile.TargetWeight = latest.TargetWeight;
                 }
 
                 var categories = await GetCategoriesByUserIdAsync(userId);
@@ -699,25 +699,54 @@ namespace MapOfDiet.Services
             return result;
         }
 
+        public static async Task<double> GetActualCaloriesAsync(int userId, DateTime date)
+        {
+            await using var conn = new NpgsqlConnection(connString);
+            await conn.OpenAsync();
+
+            const string sql = @"
+        SELECT COALESCE(SUM(f.calories * fh.mass / 100.0), 0)
+        FROM foods_history fh
+        JOIN foods f ON f.food_id = fh.food_id
+        WHERE fh.user_id = @userId
+          AND fh.eaten_at >= @start
+          AND fh.eaten_at < @end";
+
+            var start = date.Date;
+            var end = start.AddDays(1);
+
+            await using var cmd = new NpgsqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("userId", userId);
+            cmd.Parameters.AddWithValue("start", start);
+            cmd.Parameters.AddWithValue("end", end);
+
+            var result = await cmd.ExecuteScalarAsync();
+            return Convert.ToDouble(result);
+        }
 
 
 
 
         //// GetPlan (план получается не из бд, он там не хранится) ----------------------------------------------------------------------------------
 
-        public static async Task<(double Current, double Target)?> GetLatestWeightAsync(int userId)
+        public static async Task<WeightRecord?> GetLatestWeightAsync(int userId)
         {
             await using var conn = new NpgsqlConnection(connString);
             await conn.OpenAsync();
 
-            await using var cmd = new NpgsqlCommand("SELECT weight, target_weight FROM weight_history WHERE user_id = @UserId ORDER BY time DESC LIMIT 1", conn);
+            await using var cmd = new NpgsqlCommand("SELECT time, weight, target_weight FROM weight_history WHERE user_id = @UserId ORDER BY time DESC LIMIT 1", conn);
 
             cmd.Parameters.AddWithValue("UserId", userId);
 
             await using var reader = await cmd.ExecuteReaderAsync();
             if (await reader.ReadAsync())
             {
-                return (reader.GetDouble(0), reader.GetDouble(1));
+                return new WeightRecord
+                {
+                    Date = DateOnly.FromDateTime(reader.GetDateTime(0)),
+                    Weight = reader.GetDouble(1),
+                    TargetWeight = reader.GetDouble(2)
+                };
             }
 
             return null;
