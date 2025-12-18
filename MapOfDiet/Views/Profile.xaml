@@ -80,7 +80,7 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Name}" Width="200"/>
+                                <TextBlock Text="{Binding Name}" Width="200" FontSize="20"/>
                                 <CheckBox IsChecked="{Binding IsEnabled}" Width="20" Height="20"/>
                                 <Button Content="Добавить" Command="{Binding DataContext.AddCategoryCommand, RelativeSource={RelativeSource AncestorType=ListBox}}" CommandParameter="{Binding}"/>
                             </StackPanel>
@@ -95,7 +95,7 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Name}" Width="200"/>
+                            <TextBlock Text="{Binding Name}" Width="200" FontSize="20"/>
                             <Button Content="Удалить"
                         Command="{Binding DataContext.RemoveCategoryCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
                         CommandParameter="{Binding}"/>
@@ -109,7 +109,7 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Name}" Width="200"/>
+                            <TextBlock Text="{Binding Name}" Width="200" FontSize="20"/>
                             <Button Content="Удалить"
                         Command="{Binding DataContext.RemoveCategoryCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
                         CommandParameter="{Binding}"/>

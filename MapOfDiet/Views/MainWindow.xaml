@@ -7,7 +7,7 @@
         Background="#1E1E1E">
 
     <Window.DataContext>
-        <vm:MainViewModel />
+        <vm:MainViewModel/>
     </Window.DataContext>
     
     <Window.Resources>
