@@ -12,17 +12,26 @@ namespace MapOfDiet.ViewModels
 {
     public partial class GetPlanViewModel : ObservableObject
     {
+        // Вспомогательные переменные для хранения информации о иконке в TabControl
         public string Title { get; set; }
         public string IconPath { get; set; }
 
+        // Количество калорий которые необходимо съедать
         [ObservableProperty] private double calories;
+        // Количество белков которые необходимо съедать
         [ObservableProperty] private double proteins;
+        // Количество жиров которые необходимо съедать
         [ObservableProperty] private double fats;
+        // Количество углеводов которые необходимо съедать
         [ObservableProperty] private double carbohydrates;
+        // Индекс массы тела
         [ObservableProperty] private double bmi;
+        // Рекомендуемый диапозон выбора желаемого веса для данного роста
         [ObservableProperty] private string recommendedWeightRange;
+        // Предупреждение если аккаунт не найден
         [ObservableProperty] private string warning;
 
+        // Составление плана питания
         [RelayCommand]
         public async Task LoadPlanAsync()
         {

@@ -13,17 +13,21 @@ namespace MapOfDiet.ViewModels
 {
     public partial class StatisticsViewModel : ObservableObject
     {
+        // Вспомогательные переменные для хранения информации о иконке в TabControl
         public string Title { get; set; }
         public string IconPath { get; set; }
 
+        // Список данных за последние 7 дней
         public ObservableCollection<DailyStatistic> Last7Days { get; } = new();
 
+        // Функция для вызова из View
         [RelayCommand]
         public async Task RefreshAsync()
         {
             await LoadStatisticsAsync(UserSession.UserId);
         }
 
+        // Загрузка статистики за последние 7 дней
         public async Task LoadStatisticsAsync(int userId)
         {
             Last7Days.Clear();
@@ -47,9 +51,10 @@ namespace MapOfDiet.ViewModels
             }
         }
 
+        // Подсчёт требуемых калорий для данного человека
         private async Task<double> CalculateTargetCaloriesAsync(int userId, DateOnly date)
         {
-            var user = await DBWork.GetUserProfileAsync(userId); // теперь await
+            var user = await DBWork.GetUserProfileAsync(userId); 
             if (user == null) return 0;
 
             var plan = new Plan(user, 180);

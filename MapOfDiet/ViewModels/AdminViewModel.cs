@@ -18,27 +18,52 @@ namespace MapOfDiet.ViewModels
 {
     public partial class AdminViewModel : ObservableObject
     {
-        // ADD RECIPE
+        // Название блюда/рецепта
         [ObservableProperty] private string nameFood = string.Empty;
+
+        // Калорийность блюда
         [ObservableProperty] private int caloriesFood;
+
+        // Количество белков
         [ObservableProperty] private double proteinsFood;
+
+        // Количество жиров
         [ObservableProperty] private double fatsFood;
+
+        // Количество углеводов
         [ObservableProperty] private double carbohydratesFood;
+
+        // Описание блюда
         [ObservableProperty] private string descriptionFood;
+
+        // Описание процесса приготовления
         [ObservableProperty] private string cookingDescriptionFood;
 
+        // Строка поиска ингредиентов
         [ObservableProperty] private string searchFoodIngredient = string.Empty;
+
+        // Строка поиска категорий
         [ObservableProperty] private string searchFoodCategory = string.Empty;
 
+        // Масса выбранного ингредиента
         [ObservableProperty] private double massFoodIngredient;
 
+        // Изображение блюда
         [ObservableProperty] private byte[] imageFood;
+
+        // Результаты поиска категорий
         public ObservableCollection<Category> SearchResultsFoodCategories { get; } = new();
+
+        // Результаты поиска ингредиентов
         public ObservableCollection<Ingredient> SearchResultsFoodIngredients { get; } = new();
 
+        // Выбранные категории для блюда
         public ObservableCollection<Category> SelectedFoodCategories { get; } = new();
+
+        // Выбранные ингредиенты для блюда
         public ObservableCollection<Ingredient> SelectedFoodIngredients { get; } = new();
 
+        // Поиск ингредиентов по имени
         [RelayCommand]
         private void SearchFoodIngredients()
         {
@@ -47,6 +72,7 @@ namespace MapOfDiet.ViewModels
                 SearchResultsFoodIngredients.Add(ingr);
         }
 
+        // Поиск категорий по имени
         [RelayCommand]
         private void SearchFoodCategories()
         {
@@ -55,6 +81,7 @@ namespace MapOfDiet.ViewModels
                 SearchResultsFoodCategories.Add(cat);
         }
 
+        // Добавление ингредиента в список выбранных
         [RelayCommand]
         private void AddFoodIngredient(Ingredient ingr)
         {
@@ -65,6 +92,7 @@ namespace MapOfDiet.ViewModels
             }
         }
 
+        // Удаление ингредиента из списка выбранных
         [RelayCommand]
         private void RemoveFoodIngredient(Ingredient ingr)
         {
@@ -72,6 +100,7 @@ namespace MapOfDiet.ViewModels
                 SelectedFoodIngredients.Remove(ingr);
         }
 
+        // Добавление категории в список выбранных
         [RelayCommand]
         private void AddFoodCategory(Category cat)
         {
@@ -79,6 +108,7 @@ namespace MapOfDiet.ViewModels
                 SelectedFoodCategories.Add(cat);
         }
 
+        // Удаление категории из списка выбранных
         [RelayCommand]
         private void RemoveFoodCategory(Category cat)
         {
@@ -86,6 +116,7 @@ namespace MapOfDiet.ViewModels
                 SelectedFoodCategories.Remove(cat);
         }
 
+        // Загрузка изображения блюда
         [RelayCommand]
         private void AddImageFood()
         {
@@ -100,6 +131,7 @@ namespace MapOfDiet.ViewModels
             }
         }
 
+        // Сохранение блюда в базу данных
         [RelayCommand]
         private void SaveFood()
         {
@@ -120,25 +152,43 @@ namespace MapOfDiet.ViewModels
             DBWork.AddFood(recipe);
         }
 
-        // Categories
+        // Название категории
         [ObservableProperty] string nameCategory;
+
+        // Описание категории
         [ObservableProperty] string descriptionCategory;
+
+        // Изображение категории
         [ObservableProperty] byte[] imageCategory;
 
-        // Ingredients
+        // Название ингредиента
         [ObservableProperty] string nameIngredient;
+
+        // Описание ингредиента
         [ObservableProperty] string descriptionIngredient;
+
+        // Единица измерения ингредиента
         [ObservableProperty] string measureNameIngredient;
+
+        // Изображение ингредиента
         [ObservableProperty] byte[] imageIngredient;
 
-        // Phys Activity
+        // Название физической активности
         [ObservableProperty] string nameActivity;
+
+        // Описание физической активности
         [ObservableProperty] string descriptionActivity;
+
+        // Единица измерения активности
         [ObservableProperty] string measureNameActivity;
-        [ObservableProperty] double measureToCaloriesActivity; // 100 действий сколько калорий
+
+        // Количество калорий на 100 действий
+        [ObservableProperty] double measureToCaloriesActivity;
+
+        // Изображение активности
         [ObservableProperty] byte[] imageActivity;
 
-
+        // Сохранение категории в базу данных
         [RelayCommand]
         private void SaveCategory()
         {
@@ -151,6 +201,7 @@ namespace MapOfDiet.ViewModels
             DBWork.pushNewCategory(category);
         }
 
+        // Сохранение ингредиента в базу данных
         [RelayCommand]
         private void SaveIngredient()
         {
@@ -164,6 +215,7 @@ namespace MapOfDiet.ViewModels
             DBWork.pushNewIngredient(ingredient);
         }
 
+        // Сохранение физической активности в базу данных
         [RelayCommand]
         private void SaveActivity()
         {
@@ -178,6 +230,7 @@ namespace MapOfDiet.ViewModels
             DBWork.pushNewActivity(activity);
         }
 
+        // Загрузка изображения категории
         [RelayCommand]
         private void AddImageCategory()
         {
@@ -192,6 +245,7 @@ namespace MapOfDiet.ViewModels
             }
         }
 
+        // Загрузка изображения ингредиента
         [RelayCommand]
         private void AddImageIngredient()
         {
@@ -206,6 +260,7 @@ namespace MapOfDiet.ViewModels
             }
         }
 
+        // Загрузка изображения активности
         [RelayCommand]
         private void AddImageActivity()
         {
@@ -219,5 +274,6 @@ namespace MapOfDiet.ViewModels
                 ImageActivity = File.ReadAllBytes(dlg.FileName);
             }
         }
+
     }
 }

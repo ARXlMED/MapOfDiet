@@ -10,6 +10,7 @@ namespace MapOfDiet.Services
 {
     internal static class AuthorizationService
     {
+        // Авторизация
         public static int? authorization(string login, string enteredPassword)
         {
             UserAuth? userAuth = new UserAuth();
@@ -26,6 +27,7 @@ namespace MapOfDiet.Services
             return 0; // если хеши не совпали
         }
 
+        // Регистрация
         public static bool registration(string login, string enteredPassword)
         {
             if (enteredPassword.Length < 4) return false;

@@ -14,7 +14,10 @@ namespace MapOfDiet.Services
 {
     internal static class DBWork
     {
+        // Строка подключения
         private static string connString = ConfigurationManager.ConnectionStrings["PostgresConn"].ConnectionString;
+
+
 
 
 
@@ -132,6 +135,10 @@ namespace MapOfDiet.Services
                 }
             }
         }
+
+
+
+
 
 
 
@@ -417,6 +424,9 @@ namespace MapOfDiet.Services
 
 
 
+
+
+
         //// Recipe ----------------------------------------------------------------------------------
 
         // Получить все категории привязанные к еде
@@ -608,6 +618,12 @@ namespace MapOfDiet.Services
         }
 
 
+
+
+
+
+
+
         //// AddActivityRecord ----------------------------------------------------------------------------------
 
         public static bool PushActivityRecord(MyActivityRecord activityRecord)
@@ -657,6 +673,12 @@ namespace MapOfDiet.Services
 
             return list;
         }
+
+
+
+
+
+
 
 
 
@@ -752,6 +774,10 @@ namespace MapOfDiet.Services
             var result = await cmd.ExecuteScalarAsync();
             return Convert.ToDouble(result);
         }
+
+
+
+
 
 
 

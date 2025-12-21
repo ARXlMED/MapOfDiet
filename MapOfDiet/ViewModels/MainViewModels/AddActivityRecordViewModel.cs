@@ -9,16 +9,22 @@ namespace MapOfDiet.ViewModels
 {
     public partial class AddActivityRecordViewModel : ObservableObject
     {
+        // Вспомогательные переменные для хранения информации о иконке в TabControl
         public string Title { get; set; }
         public string IconPath { get; set; }
-
+        
+        // Переменная отвечающая за поле ввода имени активности
         [ObservableProperty] private string searchNameActivity;
 
+        // Список активностей найденный в результате поиска
         public ObservableCollection<MyActivity> SearchResultsActivity { get; } = new();
 
+        // Дата активности
         [ObservableProperty] private DateTime dateActivity = DateTime.Now.Date;
+        // Время активности
         [ObservableProperty] private DateTime timeActivity = DateTime.Now;
 
+        // Ищет активности по заданному имени и добавляет их в список активностей
         [RelayCommand]
         private void SearchActivity()
         {
@@ -27,6 +33,7 @@ namespace MapOfDiet.ViewModels
                 SearchResultsActivity.Add(activity);
         }
 
+        // Добавляет запись о активности данного пользователя 
         [RelayCommand]
         private void AddActivity(MyActivity activity)
         {

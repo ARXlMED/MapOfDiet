@@ -14,35 +14,51 @@ namespace MapOfDiet.ViewModels
 {
     public partial class ProfileViewModel : ObservableObject
     {
+        // Пока база данных не загружена интерфейс не отрисовывается чтобы не было резкого появления в ячейках значений
         [ObservableProperty] private bool isLoaded;
 
+        // Вспомогательные переменные для хранения информации о иконке в TabControl
         public string Title { get; set; }
         public string IconPath { get; set; }
 
+        // Имя
         [ObservableProperty] private string name;
+        // Возраст
         [ObservableProperty] private int age;
+        // Рост
         [ObservableProperty] private int height;
+        // Текущий вес
         [ObservableProperty] private double nowWeight;
+        // Желаемый вес
         [ObservableProperty] private double targetWeight;
+        // Пол
         [ObservableProperty] private char gender;
 
+        // Переменная отвечающая за поле ввода имени категории
         [ObservableProperty] private string searchCategory;
+
+        // Список категорий найденных в результате поиска
         public ObservableCollection<Category> SearchResultsCategories { get; } = new();
+        // Любимые категории
         public ObservableCollection<Category> LikeCategories { get; set; } = new();
+        // Нелюбимые категории
         public ObservableCollection<Category> DislikeCategories { get; set; } = new();
 
+        // Конструктор
         public ProfileViewModel()
         {
             IsLoaded = false;
             InitializeAsync();
         }
 
+        // Вспомогательная функция для констуктора
         private async void InitializeAsync()
         {
             await GetProfile();
             IsLoaded = true;
         }
 
+        // При изменении поля NowWeight вызывается и записывает сразу же новые данные
         partial void OnNowWeightChanged(double value)
         {
             if (isLoaded == true)
@@ -57,6 +73,7 @@ namespace MapOfDiet.ViewModels
             }
         }
 
+        // При изменении поля TargetWeight вызывается и записывает сразу же новые данные
         partial void OnTargetWeightChanged(double value)
         {
             if (isLoaded == true)
@@ -71,6 +88,7 @@ namespace MapOfDiet.ViewModels
             }
         }
 
+        // Добавляет категорию
         [RelayCommand]
         private void AddCategory(Category category)
         {
@@ -88,6 +106,7 @@ namespace MapOfDiet.ViewModels
             }
         }
 
+        // Удаляет категорию
         [RelayCommand]
         private void RemoveCategory(Category category)
         {
@@ -98,6 +117,7 @@ namespace MapOfDiet.ViewModels
                 DislikeCategories.Remove(category);
         }
 
+        // Ищет категории
         [RelayCommand]
         private void SearchCategories()
         {
@@ -106,6 +126,7 @@ namespace MapOfDiet.ViewModels
                 SearchResultsCategories.Add(cat);
         }
 
+        // Сохраняет профиль
         [RelayCommand]
         private async Task SaveProfile()
         {
@@ -124,18 +145,16 @@ namespace MapOfDiet.ViewModels
             await DBWork.PushUserProfileAsync(profile);
         }
 
+        // Получает из бд профиль, который пользователь заполнял ранее
         [RelayCommand]
         private async Task GetProfile()
         {
             UserProfile? profile;
-            Debug.WriteLine($"DEBUG: UserIdInUserSession = {UserSession.UserId}");
             profile = await DBWork.GetUserProfileAsync(UserSession.UserId);
             if (profile == null)
             {
-                Debug.WriteLine($"DEBUG: UserProfile = null");
                 return;
             }
-            Debug.WriteLine($"DEBUG: UserIdInProfile = {profile.UserId}");
             Name = profile.Name;
             Age = profile.Age;
             Height = profile.Height;

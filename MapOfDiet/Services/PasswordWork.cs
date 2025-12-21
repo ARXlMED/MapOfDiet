@@ -9,6 +9,7 @@ namespace MapOfDiet.Services
 {
     public class PasswordWork
     {
+        // Генерирует новую рандомную соль
         public static byte[] newSalt()
         {
             byte[] salt = new byte[32];
@@ -20,6 +21,7 @@ namespace MapOfDiet.Services
             return salt;
         }
 
+        // Исходя из пароля и соли выдаёт хэш
         public static byte[] newHash(string password, byte[] salt)
         {
             byte[] passwordBytes = Encoding.UTF8.GetBytes(password);

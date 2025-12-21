@@ -11,8 +11,10 @@ namespace MapOfDiet.ViewModels
 {
     public partial class MainViewModel : ObservableObject
     {
+        // Вкладки или модули
         public ObservableCollection<object> Tabs { get; }
 
+        // Создание вкладок
         public MainViewModel()
         {
             Tabs = new ObservableCollection<object>()
