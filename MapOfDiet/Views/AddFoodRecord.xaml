@@ -5,7 +5,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    xmlns:conv="clr-namespace:MapOfDiet.Converters"
     mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <conv:ByteArrayToImageConverter x:Key="ByteArrayToImageConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
@@ -50,7 +54,7 @@
                                 <ColumnDefinition Width="120"/>
                             </Grid.ColumnDefinitions>
 
-                            <Image Source="{Binding ImagePath}" Grid.Column="0" Width="80" Height="80" Stretch="UniformToFill" Margin="5"/>
+                            <Image Source="{Binding Image, Converter={StaticResource ByteArrayToImageConverter}}" Grid.Column="0" Width="80" Height="80" Stretch="UniformToFill" Margin="5"/>
                             <StackPanel Grid.Column="1" Orientation="Vertical" Margin="10,0,0,0">
                                 <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="Bold"/>
                                 <TextBlock Text="{Binding Calories}" FontSize="14" Foreground="Gray"/>
