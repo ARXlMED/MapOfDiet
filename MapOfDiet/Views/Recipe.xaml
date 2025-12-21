@@ -66,8 +66,6 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" Margin="5">
-                                <Image Width="50" Height="50" Stretch="UniformToFill" Margin="5"
-                                       Source="{Binding Image, Converter={StaticResource ByteArrayToImageConverter}}"/>
                                 <TextBlock Text="{Binding Name}" VerticalAlignment="Center" FontSize="16" Margin="10,0,0,0" Style="{StaticResource {x:Type TextBlock}}" Foreground="White"/>
                             </StackPanel>
                         </DataTemplate>

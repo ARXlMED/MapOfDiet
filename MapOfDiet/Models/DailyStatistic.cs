@@ -10,7 +10,13 @@ namespace MapOfDiet.Models
     {
         public DateOnly Date { get; set; }
         public double TargetCalories { get; set; }   
-        public double ActualCalories { get; set; }   
+        public double ActualCalories { get; set; } 
+        public double TargetProteins { get; set; }
+        public double ActualProteins { get; set; }
+        public double TargetFats { get; set; }
+        public double ActualFats { get; set; }
+        public double TargetCarbohydrates { get; set; }
+        public double ActualCarbohydrates { get; set; }
     }
 
 }

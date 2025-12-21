@@ -438,7 +438,7 @@ namespace MapOfDiet.Services
 
             if (categoriesIds.Count == 0) { return result; }
 
-            using (var cmd = new NpgsqlCommand("SELECT category_id, name, description FROM categories WHERE category_id = ANY(@CatId)", conn))
+            using (var cmd = new NpgsqlCommand("SELECT category_id, name, description, image FROM categories WHERE category_id = ANY(@CatId)", conn))
             {
                 cmd.Parameters.AddWithValue("CatId", categoriesIds);
                 using var reader = cmd.ExecuteReader();
@@ -448,7 +448,8 @@ namespace MapOfDiet.Services
                     {
                         CategoryId = reader.GetInt32(0),
                         Name = reader.GetString(1),
-                        Description = reader.GetString(2)
+                        Description = reader.GetString(2),
+                        Image = reader.IsDBNull(3) ? null : reader.GetFieldValue<byte[]>(3)
                     });
                 }
             }
@@ -477,7 +478,7 @@ namespace MapOfDiet.Services
 
             if (ingredientsMass.Count == 0) { return result; }
 
-            using (var cmd = new NpgsqlCommand("SELECT ingr_id, name, description, measure_name FROM ingredients WHERE ingr_id = ANY(@IngrId)", conn))
+            using (var cmd = new NpgsqlCommand("SELECT ingr_id, name, description, measure_name, image FROM ingredients WHERE ingr_id = ANY(@IngrId)", conn))
             {
                 cmd.Parameters.AddWithValue("IngrId", ingredientsMass.Keys.ToList());
                 using var reader = cmd.ExecuteReader();
@@ -490,7 +491,8 @@ namespace MapOfDiet.Services
                         Name = reader.GetString(1),
                         Description = reader.GetString(2),
                         MeasureName = reader.GetString(3),
-                        Mass = ingredientsMass[ingrId]
+                        Mass = ingredientsMass[ingrId],
+                        Image = reader.IsDBNull(4) ? null : reader.GetFieldValue<byte[]>(4)
                     });
                 }
             }
