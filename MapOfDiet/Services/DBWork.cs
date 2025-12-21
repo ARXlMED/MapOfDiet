@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Navigation;
@@ -701,18 +702,19 @@ namespace MapOfDiet.Services
             return result;
         }
 
+        // Получает данные о количестве калорий съеденных за день
         public static async Task<double> GetActualCaloriesAsync(int userId, DateTime date)
         {
             await using var conn = new NpgsqlConnection(connString);
             await conn.OpenAsync();
 
             const string sql = @"
-        SELECT COALESCE(SUM(f.calories * fh.mass / 100.0), 0)
-        FROM foods_history fh
-        JOIN foods f ON f.food_id = fh.food_id
-        WHERE fh.user_id = @userId
-          AND fh.eaten_at >= @start
-          AND fh.eaten_at < @end";
+            SELECT COALESCE(SUM(f.calories * fh.mass / 100.0), 0)
+            FROM foods_history fh
+            JOIN foods f ON f.food_id = fh.food_id
+            WHERE fh.user_id = @userId
+            AND fh.eaten_at >= @start
+            AND fh.eaten_at < @end";
 
             var start = date.Date;
             var end = start.AddDays(1);
@@ -726,6 +728,30 @@ namespace MapOfDiet.Services
             return Convert.ToDouble(result);
         }
 
+        // Получает количество калорий сожженых на физической активности за данный день
+        public static async Task<double> GetActualCaloriesActivityAsync(int userId, DateTime date)
+        {
+            await using var conn = new NpgsqlConnection(connString);
+            await conn.OpenAsync();
+
+            var start = date.Date;
+            var end = start.AddDays(1);
+
+            await using var cmd = new NpgsqlCommand(@"
+                SELECT COALESCE(SUM(a.measure_to_calories * ah.measure_value / 100), 0)
+                FROM activities_history ah
+                JOIN activities a ON a.activity_id = ah.activity_id
+                WHERE ah = @userId
+                AND ah.performed_at >= @start
+                AND ah.performed_at < @end
+            ", conn);
+            cmd.Parameters.AddWithValue("userId", userId);
+            cmd.Parameters.AddWithValue("start", start);
+            cmd.Parameters.AddWithValue("end", end);
+
+            var result = await cmd.ExecuteScalarAsync();
+            return Convert.ToDouble(result);
+        }
 
 
 

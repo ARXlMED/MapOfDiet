@@ -36,12 +36,13 @@ namespace MapOfDiet.ViewModels
                 var dateTime = date.ToDateTime(TimeOnly.MinValue);
 
                 double actual = await DBWork.GetActualCaloriesAsync(userId, dateTime);
+                double actualActivity = await DBWork.GetActualCaloriesActivityAsync(userId, dateTime);
 
                 Last7Days.Add(new DailyStatistic
                 {
                     Date = date,
                     TargetCalories = target,
-                    ActualCalories = actual
+                    ActualCalories = actual - actualActivity
                 });
             }
         }
