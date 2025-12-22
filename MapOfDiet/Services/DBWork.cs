@@ -763,7 +763,7 @@ namespace MapOfDiet.Services
                 SELECT COALESCE(SUM(a.measure_to_calories * ah.measure_value / 100), 0)
                 FROM activities_history ah
                 JOIN activities a ON a.activity_id = ah.activity_id
-                WHERE ah = @userId
+                WHERE ah.user_id = @userId
                 AND ah.performed_at >= @start
                 AND ah.performed_at < @end
             ", conn);
